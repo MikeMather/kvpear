@@ -1,3 +1,4 @@
+import Link from "next/link"
 import Layout from "./layout"
 
 export default function Custom404() {
@@ -16,7 +17,7 @@ export default function Custom404() {
         <p className="empty-title h3">This page doesn't exist</p>
         <p className="empty-subtitle">Sorry.</p>
         <div className="empty-action">
-          <a href="/" className="btn btn-primary">Go home</a>
+          <Link href="/" className="btn btn-primary">Go home</Link>
         </div>
       </div>
     </Layout>

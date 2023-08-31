@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app'
 import AuthProvider from '@/components/context/authContext';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import styles from '../styles/layout.module.scss';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,9 +28,13 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [router.events])
 
+
+
   if (loading) {
     return (
-      <div className="loading"></div>
+      <div className={styles.page_loader}>
+        <div className="loading loading-lg"></div>
+      </div>
     )
   }
 

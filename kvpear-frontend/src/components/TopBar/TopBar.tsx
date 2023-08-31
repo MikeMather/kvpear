@@ -3,6 +3,7 @@ import styles from './TopBar.module.scss';
 import { ironSessionOptions } from '@/auth/session';
 import { useRouter } from 'next/router';
 import { Dropdown } from '../common/Dropdown/Dropdown';
+import Link from 'next/link';
 
 export default function TopBar() {
   const router = useRouter();
@@ -19,17 +20,17 @@ export default function TopBar() {
       <header className="navbar">
         <section className="navbar-section">
           <div className={styles.logo_container}>
-            <a href="/" className="navbar-brand mr-2">
+            <Link href="/" className="navbar-brand mr-2">
               <img src="/logos/default.svg" alt="logo" width="230" height="180" />
-            </a>
+            </Link>
           </div>
         </section>
         {!isLoading && 
           <section className="navbar-section">
             {!user 
               ? <>
-                  <a href="/auth/login" style={{ marginRight: '25px' }} className="navbar-brand">Login</a>
-                  <a href="/auth/login" className="btn btn-primary">Sign up</a>
+                  <Link href="/auth/login" style={{ marginRight: '25px' }} className="navbar-brand">Login</Link>
+                  <Link href="/auth/login" className="btn btn-primary">Sign up</Link>
                 </>
               : <Dropdown
                 label="Account"

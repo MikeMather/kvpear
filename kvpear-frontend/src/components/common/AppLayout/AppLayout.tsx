@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react";
 import styles from './appLayout.module.scss';
 import TopBar from "@/components/TopBar/TopBar";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function AppLayout({ children }: PropsWithChildren<{}>) {
 
@@ -20,24 +21,24 @@ export default function AppLayout({ children }: PropsWithChildren<{}>) {
           <div className={`${styles.sidebar} column col-3`}>
             <ul className="nav">
               <li className={`nav-item ${isActiveRoute('app')}`}>
-                <a href="/app">Dashboard</a>
+                <Link href="/app">Dashboard</Link>
               </li>
               <li className={`nav-item ${isActiveRoute('app/buckets')}`}>
-                <a href="/app/buckets">Buckets</a>
+                <Link href="/app/buckets">Buckets</Link>
               </li>
               <li className="nav-item">
-                <a href="#">Development</a>
+                <Link href="#">Development</Link>
                 <ul className="nav">
                   <li className={`nav-item ${isActiveRoute('docs')}`}>
-                    <a href="#">Documentation</a>
+                    <Link href="#">Documentation</Link>
                   </li>
                   <li className={`nav-item ${isActiveRoute('sandbox')}`}>
-                    <a href="#">Sandbox</a>
+                    <Link href="#">Sandbox</Link>
                   </li>
                 </ul>
               </li>
               <li className="nav-item">
-                <a href="#">Usage</a>
+                <Link href="#">Usage</Link>
               </li>
             </ul>
           </div>

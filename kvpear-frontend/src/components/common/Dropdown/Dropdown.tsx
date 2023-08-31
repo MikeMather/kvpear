@@ -13,18 +13,18 @@ type DropdownProps = {
 export const Dropdown = ({ icon, label, items }: DropdownProps) => (
   <div className="dropdown">
     <div className="btn-group">
-      <a href="#" className="btn">
+      <span className="btn">
         {icon && <i className={`icon icon-${icon}`} style={{ marginRight: '5px' }}></i>}
         {label}
-      </a>
-      <a href="#" className="btn dropdown-toggle" tabIndex={0}>
+      </span>
+      <span className="btn dropdown-toggle" tabIndex={0}>
         <i className="icon icon-caret"></i>
-      </a>
+      </span>
 
       <ul className="menu">
         {items.map((item, index) => (
          <li key={index} className="menu-item">
-            <a href="#" onClick={item.action}>{item.label}</a>
+            <span onClick={item.action}>{item.label}</span>
           </li> 
         ))}
       </ul>

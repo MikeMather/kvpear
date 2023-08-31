@@ -5,6 +5,7 @@ import Bucket, { BucketDocument } from "@/database/models/bucket";
 import { UserDocument, UserType } from "@/database/models/user";
 import { GetServerSideProps } from "next";
 import styles from './buckets.module.scss';
+import Link from "next/link";
 
 export const getServerSideProps = protectedSsrRoute(async (ctx: GetServerSideProps, session: UserDocument) => {
   await getDb();
@@ -33,7 +34,7 @@ export default function Buckets({ buckets }: { buckets: BucketDocument[] }) {
           <tbody>
             {buckets.map((bucket: BucketDocument) => (
               <tr key={bucket._id}>
-                <td><a href={`/buckets/${bucket._id}`} className="btn btn-link">{bucket.name}</a></td>
+                <td><Link href={`/buckets/${bucket._id}`} className="btn btn-link">{bucket.name}</Link></td>
                 <td className="text-center">15</td>
                 <td className="text-right">{bucket.createdAt.toString()}</td>
               </tr>

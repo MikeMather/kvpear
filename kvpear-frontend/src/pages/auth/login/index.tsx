@@ -6,6 +6,7 @@ import { usePost } from '@/utils/api';
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Link from 'next/link';
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -36,7 +37,7 @@ export default function Login() {
               <h1>Check your email</h1>
               <p>We sent a link that you can use to login</p>
             </div>
-            <a href="/" className="btn btn-primary">Go Home</a>
+            <Link href="/" className="btn btn-primary">Go Home</Link>
           </div>
         </div>
       </Layout>
