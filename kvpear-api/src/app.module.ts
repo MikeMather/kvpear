@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigurableModuleBuilder, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { BucketsModule } from './buckets/buckets.module';
@@ -8,11 +8,21 @@ import { ApiKeyMiddleware } from './middleware/apiKey.middleware';
 import { MiddlewareModule } from './middleware/middleware.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     ApiKeysModule, UsersModule, BucketsModule, KeyValuesModule, MiddlewareModule,
-    MongooseModule.forRoot('mongodb+srv://doadmin:3419P7QCnpH85B0s@kvdb-55111d7a.mongo.ondigitalocean.com/admin?authSource=admin&tls=true'),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        uri: config.get<string>('DATABASE_URL'), // Loaded from .ENV
+      })
+    }),
     ThrottlerModule.forRoot({
       ttl: 60,
       limit: 30
