@@ -1,0 +1,33 @@
+@import '../../../styles/variables';
+
+.alert {
+  padding: 25px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+$lighten-amount: 40%;
+
+.alert_success {
+  background-color: lighten($success-color, $lighten-amount);
+  border-color: $success-color;
+  color: $success-color;
+}
+
+.alert_warning {
+  background-color: lighten($warning-color, $lighten-amount);
+  border-color: $warning-color;
+  color: $warning-color;
+}
+
+.alert_danger {
+  background-color: lighten($error-color, $lighten-amount);
+  border-color: $error-color;
+  color: $error-color;
+}
+
+.alert_info {
+  background-color: lighten($info-color, $lighten-amount);
+  border-color: $info-color;
+  color: $info-color;
+}
