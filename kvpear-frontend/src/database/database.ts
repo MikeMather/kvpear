@@ -1,16 +1,16 @@
 import mongoose from 'mongoose';
 
-if (!process.env.DATABASE_URI) {
-  throw new Error('Invalid environment variable: "DATABASE_URI"')
+if (!process.env.DATABASE_URL) {
+  throw new Error('Invalid environment variable: "DATABASE_URL"')
 }
 
-const uri = process.env.DATABASE_URI
+const uri = process.env.DATABASE_URL
 const options = {}
 
 let client
 let dbClientPromise: Promise<typeof mongoose>
 
-if (!process.env.DATABASE_URI) {
+if (!process.env.DATABASE_URL) {
   throw new Error('Please add your Mongo URI to .env.local')
 }
 
