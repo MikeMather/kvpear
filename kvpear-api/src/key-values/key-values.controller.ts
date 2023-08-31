@@ -9,6 +9,7 @@ import { FastifyRequest } from 'fastify';
 import { formatKvPairs } from 'src/utils/entities';
 import { CacheInterceptor } from 'src/middleware/cache.interceptor';
 import { Cache, InvalidateCache } from 'src/middleware/cache.decorator';
+import { ValidateMongoId } from 'src/utils/validation';
 
 @UseInterceptors(CacheInterceptor)
 @UseInterceptors(UseEntityInterceptor)
@@ -17,19 +18,19 @@ import { Cache, InvalidateCache } from 'src/middleware/cache.decorator';
 export class KeyValuesController {
   constructor(private readonly keyValuesService: KeyValuesService) {}
 
-  @Post(':bucketName/:key')
+  @Post(':bucketId/:key')
   @HttpCode(201)
   @InvalidateCache()
   @UseGuards(ScopedPermissionsGuard)
   @Permissions(ApiPermissions.WRITE_KEY_VALUE)
   async create(@Param('key') key: string, 
-        @Param('bucketName') bucketName: string,
+        @Param('bucketId', ValidateMongoId) bucketId: string,
         @Req() req: RawBodyRequest<FastifyRequest>
   ) {
     const value = req.body as string;
     const isIncrement = value.startsWith('+') || value.startsWith('-');
     const query = {
-      bucketName,
+      bucketId,
       userId: req.raw['session'].userId,
       key,
       value
@@ -42,38 +43,49 @@ export class KeyValuesController {
     return res.value;
   }
 
-  @Get(':bucketName/:key')
+  @Get(':bucketId/:key')
   @Cache()
   @UseGuards(ScopedPermissionsGuard)
   @Permissions(ApiPermissions.READ_KEY_VALUE)
-  findOne(@Param('key') key: string, 
-          @Param('bucketName') bucketName: string,
+  async findOne(@Param('key') key: string, 
+          @Param('bucketId', ValidateMongoId) bucketId: string,
           @Req() req: RawBodyRequest<FastifyRequest>
   ) {
-    return this.keyValuesService.read({
-      bucketName,
+    const val = await this.keyValuesService.read({
+      bucketId,
       userId: req.raw['session'].userId,
       key
     });
+    return val.value;
   }
 
-  @Get(':bucketName')
+  @Get(':bucketId')
   @UseGuards(ScopedPermissionsGuard)
   @Permissions(ApiPermissions.READ_KEY_VALUE)
   async findAll(@Param('key') key: string, 
-          @Param('bucketName') bucketName: string,
+          @Param('bucketId', ValidateMongoId) bucketId: string,
           @Req() req: RawBodyRequest<FastifyRequest>,
-          @Query('prefix') prefix: string
+          @Query('prefix') prefix: string,
+          @Query('regex') regex: string
   ) {
     if (!prefix) {
+      if (regex) {
+        const unencodedRegex = decodeURIComponent(regex);
+        const kvs = await this.keyValuesService.findByRegex({
+          bucketId,
+          userId: req.raw['session'].userId,
+          regex: unencodedRegex
+        });
+        return formatKvPairs(kvs);
+      }
       const kvs = await this.keyValuesService.findAll({
-        bucketName,
+        bucketId,
         userId: req.raw['session'].userId
       });
       return formatKvPairs(kvs);
     }
     const kvs = await this.keyValuesService.findByPrefix({
-      bucketName,
+      bucketId,
       userId: req.raw['session'].userId,
       prefix
     });
@@ -83,13 +95,13 @@ export class KeyValuesController {
   @InvalidateCache()
   @HttpCode(204)
   @InvalidateCache()
-  @Delete(':bucketName/:key')
+  @Delete(':bucketId/:key')
   async remove(@Param('key') key: string, 
-        @Param('bucketName') bucketName: string,
+        @Param('bucketId', ValidateMongoId) bucketId: string,
         @Req() req: RawBodyRequest<FastifyRequest>
     ) {
-    const deleted = this.keyValuesService.unset({
-      bucketName,
+    const deleted = await this.keyValuesService.unset({
+      bucketId,
       userId: req.raw['session'].userId,
       key
     });

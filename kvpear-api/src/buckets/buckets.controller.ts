@@ -5,7 +5,7 @@ import { ApiPermissions } from 'src/types/permissions';
 import { Permissions } from 'src/middleware/permissions.decorator';
 import { FastifyRequest } from 'fastify';
 import { RawTextBodyInterceptor } from 'src/middleware/textBody.decorator';
-import { isUrlSafe } from 'src/utils/validation';
+import { ValidateMongoId, isUrlSafe } from 'src/utils/validation';
 import { ErrorCodes } from 'src/utils/errors';
 import { UseEntityInterceptor } from 'src/middleware/useEntity.decorator';
 
@@ -27,7 +27,8 @@ export class BucketsController {
       }
       try {
         const { userId } = req.raw['session'];
-        return await this.bucketsService.create(name as string, userId);
+        const newBucket = await this.bucketsService.create(name as string, userId);
+        return newBucket._id;
       } catch (err) {
         if (err.code === ErrorCodes.DUPLICATE_KEY_ERROR) {
           throw new BadRequestException('Bucket already exists');
@@ -46,22 +47,22 @@ export class BucketsController {
     return await this.bucketsService.findAll();
   }
 
-  @Get(':name')
+  @Get(':id')
   @UseGuards(ScopedPermissionsGuard)
   @Permissions(ApiPermissions.LIST_BUCKETS)
-  async findOne(@Param('name') name: string) {
-    const bucket = await this.bucketsService.findOne(name);
+  async findOne(@Param('id', ValidateMongoId) id: string) {
+    const bucket = await this.bucketsService.findOne(id);
     if (!bucket) {
       throw new NotFoundException('Bucket not found');
     }
     return bucket;
   }
 
-  @Delete(':name')
+  @Delete(':id')
   @HttpCode(204)
   @UseGuards(ScopedPermissionsGuard)
   @Permissions(ApiPermissions.DELETE_BUCKET)
-  async remove(@Param('name') name: string) {
-    const deleted = await this.bucketsService.remove(name);
+  async remove(@Param('id', ValidateMongoId) id: string) {
+    const deleted = await this.bucketsService.remove(id);
   }
 }

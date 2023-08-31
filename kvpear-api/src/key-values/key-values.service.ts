@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Bucket } from 'src/buckets/schemas/buckets.schema';
+import { KeyValue } from './schemas/keyValues.schema';
 import { existsOr404 } from 'src/utils/errors';
 
 type BaseParams = {
-  bucketName: string;
+  bucketId: string;
   userId: string;
   key: string;
 }
@@ -14,111 +14,69 @@ type CreateOrUpdateParams = BaseParams & {
   value: string;
 }
 
-
 @Injectable()
 export class KeyValuesService {
 
-  constructor(@InjectModel ('Bucket') private readonly bucketModel: Model<Bucket>) {}
-
-
-  private getKeyValue(bucket: Bucket, key: string) {
-    return bucket.keyValuePairs.find(keyValuePair => keyValuePair.key === key);
-  }
+  constructor(@InjectModel ('KeyValue') private readonly keyValueModel: Model<KeyValue>) {}
 
   /**
    * Creates or updates a value in a bucket.
    */
-  async createOrUpdate({ bucketName, userId, key, value }: CreateOrUpdateParams) {
+  async createOrUpdate({ bucketId, userId, key, value }: CreateOrUpdateParams) {
     const numberValue = Number(value);
     let valueToSave: any = value;
     if (!isNaN(numberValue)) {
       valueToSave = numberValue;
     }
 
-    const bucket = await this.bucketModel.findOne({ name: bucketName, userId, 'keyValuePairs.key': key });
-    if (bucket) {
-      const updated = await this.bucketModel.findOneAndUpdate(
-        { name: bucketName, userId, 'keyValuePairs.key': key },
-        { $set: { 'keyValuePairs.$.value': valueToSave } },
-        { new: true }
-      ).exec();
-      return this.getKeyValue(updated, key);
-    }
-    const updated = await this.bucketModel.findOneAndUpdate(
-      { name: bucketName, userId },
-      { $push: { keyValuePairs: { key, value: valueToSave } } },
-      { new: true }
+    return await this.keyValueModel.findOneAndUpdate(
+      { bucketId, key, userId },
+      { value: valueToSave },
+      { new: true, upsert: true }
     ).exec();
-    return this.getKeyValue(updated, key);
   }
 
   /**
    * Increments or decrements a value in a bucket. 
    */
-  async createOrIncrement({ bucketName, userId, key, value }: CreateOrUpdateParams) {
+  async createOrIncrement({ bucketId, userId, key, value }: CreateOrUpdateParams) {
     const numberValue = Number(value.replace('+', ''));
     let valueToSave: any = value;
     if (!isNaN(numberValue)) {
       valueToSave = numberValue;
     }
 
-    const bucket = await this.bucketModel.findOne({ name: bucketName, userId, 'keyValuePairs.key': key });
-    if (bucket) {
-       const updated = existsOr404(await this.bucketModel.findOneAndUpdate(
-        { name: bucketName, userId, 'keyValuePairs.key': key },
-        { $inc: { 'keyValuePairs.$.value': valueToSave } },
-        { new: true }
-      ).exec(), "Bucket not found");
-
-      return this.getKeyValue(updated, key);
-    }
-    const updated = existsOr404(await this.bucketModel.findOneAndUpdate(
-      { name: bucketName, userId },
-      { $push: { keyValuePairs: { key, value: valueToSave } } },
-      { new: true }
-    ).exec(), "Bucket not found");
-    return this.getKeyValue(updated, key);
+    return await this.keyValueModel.findOneAndUpdate(
+      { bucketId, key, userId },
+      { $inc: { value: valueToSave } },
+      { new: true, upsert: true }
+    ).exec();
   }
 
   /**
    * Reads a value from a bucket.
    */
-  read({ bucketName, userId, key }: BaseParams): Promise<string> {
-    return this.bucketModel.findOne({ name: bucketName, userId, 'keyValuePairs.key': key })
-      .then(bucket => {
-        if (!bucket) {
-          throw new NotFoundException('Key not found')
-        }
-        const keyValuePair = bucket.keyValuePairs.find(keyValuePair => keyValuePair.key === key);
-        return keyValuePair.value;
-      });
+  async read({ bucketId, userId, key }: BaseParams): Promise<KeyValue> {
+    return existsOr404(await this.keyValueModel.findOne({ bucketId, key, userId }), "Key not found");
   }
 
-  async findAll({ bucketName, userId }: Partial<BaseParams>) {
-    return existsOr404(await this.bucketModel.findOne({ name: bucketName, userId })
-      .then(bucket => {
-        if (!bucket) {
-          return null;
-        }
-        return bucket.keyValuePairs;
-      }), "Bucket not found");
+  async findAll({ bucketId, userId }: Partial<BaseParams>) {
+    return this.keyValueModel.find({ bucketId, userId });
   }
 
-  findByPrefix({ bucketName, userId, prefix }: { bucketName: string; userId: string; prefix: string }) {
-    return this.bucketModel.findOne({ name: bucketName, userId })
-      .then(bucket => {
-        if (!bucket) {
-          return null;
-        }
-        return bucket.keyValuePairs.filter(keyValuePair => keyValuePair.key.startsWith(prefix));
-      });
+  findByPrefix({ bucketId, userId, prefix }: { bucketId: string; userId: string; prefix: string }) {
+    return this.keyValueModel.find({ bucketId, userId, key: { $regex: `^${prefix}` } });
   }
 
-  unset({ bucketName, userId, key }: BaseParams) {
-    return this.bucketModel.findOneAndUpdate(
-      { name: bucketName, userId },
-      { $pull: { keyValuePairs: { key } } },
-      { new: true }
-    ).exec();
+  findByRegex({ bucketId, userId, regex }: { bucketId: string; userId: string; regex: string }) {
+    return this.keyValueModel.find({ bucketId, userId, key: { $regex: regex } });
+  }
+
+  unset({ bucketId, userId, key }: BaseParams) {
+    return this.keyValueModel.deleteOne({ bucketId, userId, key });
+  }
+
+  removeAllForBucket(bucketId: string) {
+    return this.keyValueModel.deleteMany({ bucketId });
   }
 }

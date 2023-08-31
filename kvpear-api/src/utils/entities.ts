@@ -20,6 +20,7 @@ export const Serializable = (entity: typeof BaseEntity): (schema: mongoose.Schem
   return (schema: mongoose.Schema): any => {
     schema.methods.serialize = function () {
       const obj = this.toObject();
+      obj.id = this._id.toString();
       return instanceToPlain(new entity(obj));
     };
     return schema;

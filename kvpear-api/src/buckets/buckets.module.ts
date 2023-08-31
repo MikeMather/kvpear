@@ -6,12 +6,15 @@ import { BucketSchema } from './schemas/buckets.schema';
 import { ApiKeysModule } from 'src/api-keys/api-keys.module';
 import { MiddlewareModule } from 'src/middleware/middleware.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { KeyValuesModule } from 'src/key-values/key-values.module';
+import { KeyValuesService } from 'src/key-values/key-values.service';
 
 @Module({
   controllers: [BucketsController],
   providers: [BucketsService],
   imports: [
     ApiKeysModule,
+    KeyValuesModule,
     MongooseModule.forFeature([
       { name: 'Bucket', schema: BucketSchema },
     ]),

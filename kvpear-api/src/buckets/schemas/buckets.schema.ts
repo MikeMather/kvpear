@@ -14,9 +14,6 @@ export class Bucket extends mongoose.Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   userId: mongoose.Schema.Types.ObjectId;
 
-  @Prop({ type: [{ key: String, value: mongoose.Schema.Types.Mixed }] })
-  keyValuePairs: KeyValuePair[];
-
   serialize: () => any;
 }
 
