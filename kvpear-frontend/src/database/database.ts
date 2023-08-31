@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+console.log(process.env)
+
 if (!process.env.DATABASE_URL) {
   throw new Error('Invalid environment variable: "DATABASE_URL"')
 }
