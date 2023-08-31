@@ -20,7 +20,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
-        uri: config.get<string>('DATABASE_URL'), // Loaded from .ENV
+        uri: config.get<string>('DATABASE_URI'), // Loaded from .ENV
       })
     }),
     ThrottlerModule.forRoot({

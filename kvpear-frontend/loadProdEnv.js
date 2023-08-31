@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const envVars = {
-  DATABASE_URL: process.env.DATABASE_URL,
+  DATABASE_URI: process.env.DATABASE_URI,
   SECRET: process.env.SECRET,
 }
 
