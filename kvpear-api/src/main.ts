@@ -19,6 +19,6 @@ async function bootstrap() {
     methods: '*',
     allowedHeaders: 'Content-Type, api-key, origin',
   });
-  await app.listen(8080);
+  await app.listen(8080, '0.0.0.0');
 }
 bootstrap();

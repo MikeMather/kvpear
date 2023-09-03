@@ -38,6 +38,11 @@ code.block p {
   flex-direction: column;
 }
 
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .page-header {
   display: flex;
   justify-content: space-between;
