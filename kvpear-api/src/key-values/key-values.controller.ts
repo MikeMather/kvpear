@@ -14,7 +14,7 @@ import { ValidateMongoId } from 'src/utils/validation';
 @UseInterceptors(CacheInterceptor)
 @UseInterceptors(UseEntityInterceptor)
 @UseInterceptors(RawTextBodyInterceptor)
-@Controller('keys')
+@Controller('kvs')
 export class KeyValuesController {
   constructor(private readonly keyValuesService: KeyValuesService) {}
 

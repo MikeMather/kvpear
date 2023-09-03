@@ -9,6 +9,12 @@ export class ApiKeyMiddleware implements NestMiddleware {
 
   async use(req: FastifyRequest['raw'], res: FastifyReply['raw'], next: NextFunction) {
     const apiKey = req.headers['api-key'] as string;
+    // @ts-ignore
+    const isHealthCheck = req.originalUrl === '/health';
+  
+    if (isHealthCheck) {
+      return res.end('ok')
+    }
 
     if (!apiKey) {
       res.statusCode = 401;
