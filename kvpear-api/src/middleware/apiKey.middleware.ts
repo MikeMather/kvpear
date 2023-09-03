@@ -14,6 +14,10 @@ export class ApiKeyMiddleware implements NestMiddleware {
     const skipAuth = isAuthExempt(req);
   
     if (skipAuth) {
+      // @ts-ignore
+      if (req.originalUrl === '/health') {
+        return res.end(JSON.stringify({ message: 'OK' }));
+      }
       return next();
     }
 
