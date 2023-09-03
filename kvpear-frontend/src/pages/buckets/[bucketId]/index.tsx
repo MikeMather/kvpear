@@ -13,6 +13,8 @@ import styles from './bucket.module.scss';
 import { modifyOneInArray } from "@/utils/objects";
 import EditOrCreateKeyForm from "@/components/common/Forms/EditOrCreateKeyForm/EditOrCreateKeyForm";
 import { useRouter } from "next/router";
+import SecretField from "@/components/common/SecretField/SecretField";
+import Link from "next/link";
 
 type KeyValueItem = KeyValueType & {
   _id: string;
@@ -167,8 +169,8 @@ export default function BucketPage({ bucket, keys }: any) {
   return (
     <AppLayout>
       <div>
-        <Modal 
-          title={`Add key to ${bucket.name}`} 
+        <Modal
+          title={`Add key to ${bucket.name}`}
           size="md"
           className={styles.full_height_modal}
         >
@@ -180,118 +182,131 @@ export default function BucketPage({ bucket, keys }: any) {
             }}
           />
         </Modal>
-        <EditModal 
-          title={`Edit ${expandedKey?.key}`} 
-          size="md" 
+        <EditModal
+          title={`Edit ${expandedKey?.key}`}
+          size="md"
           className={styles.full_height_modal}
         >
           {expandedKey && (
-            <EditOrCreateKeyForm 
+            <EditOrCreateKeyForm
               bucketId={bucket._id}
-              editingKey={expandedKey} 
+              editingKey={expandedKey}
               onClose={(k: KeyValueType | null) => {
                 if (!k) return;
                 onUpdateKey(k);
-              }} 
-              />
+              }}
+            />
           )}
         </EditModal>
+        <ul className="breadcrumb">
+          <li className="breadcrumb-item">
+            <Link href="/buckets">Buckets</Link>
+          </li>
+          <li className="breadcrumb-item">
+            <Link href="#">{bucketName}</Link>
+          </li>
+        </ul>
         <div className={styles.page_title_container}>
-          {!editingBucket
-            ? <div className={styles.page_title}>
-              <h1>{bucketName}</h1>
-              <button className="btn btn-link" onClick={() => setEditingBucket(true)}>
-                <i className="icon icon-edit"></i>
-              </button>
-            </div>
-            : <div>
+            {!editingBucket
+              ? <div className={styles.page_title}>
+                <h1>{bucketName}</h1>
+                <button className="btn btn-link" onClick={() => setEditingBucket(true)}>
+                  <i className="icon icon-edit"></i>
+                </button>
+              </div>
+              : <div>
                 <div className={ccn('input-group', { 'has-error': !!bucketEditError })}>
-                  <input 
-                    className="form-input input-lg" 
-                    type="text" 
+                  <input
+                    className="form-input input-lg"
+                    type="text"
                     value={bucketName} onChange={e => setBucketName(e.target.value)} />
                   <button
                     className="btn btn-primary input-group-btn btn-lg"
                     onClick={saveBucket}
                   >Save</button>
-                  <button 
+                  <button
                     className="btn btn-link input-group-btn btn-lg"
                     onClick={() => setEditingBucket(false)}
                   >Cancel</button>
+                </div>
+                <span className="form-input-hint text-error">{bucketEditError}</span>
               </div>
-              <span className="form-input-hint text-error">{bucketEditError}</span>
+            }
+            <div>
             </div>
-          }
-          <div>
-            <button 
-              onClick={deleteBucket} 
-              className="btn btn-action btn-link text-error tooltip"
-              data-tooltip="Delete bucket"
-            >
-              <i className="icon icon-delete" style={{ opacity: '0.9' }}></i>
-            </button>
+            <div>
+              <button
+                onClick={deleteBucket}
+                className="btn btn-action btn-link text-error tooltip"
+                data-tooltip="Delete bucket"
+              >
+                <i className="icon icon-delete" style={{ opacity: '0.9' }}></i>
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="columns mb-2">
-          <div className="column col-3">
-            <div className="input-group">
-              <input 
-                type="text" 
-                className="form-input" 
-                placeholder="Search" 
-                onChange={searchKeys}
-              />
-            </div>             
+          <div className="columns mb-2">
+            <div className="column col-3">
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="Search"
+                  onChange={searchKeys}
+                />
+              </div>
+            </div>
+            <div className={ccn("column col-7 flex-center", styles.id_copy)}>
+              <span>Bucket ID:</span>
+              <SecretField secret={bucket._id} />
+            </div>
+            <div className="column col-2 text-right">
+              <button onClick={toggleModal} className="btn btn-primary">+ Add Key</button>
+            </div>
           </div>
-          <div className="column col-7"></div>
-          <div className="column col-2 text-right">
-            <button onClick={toggleModal} className="btn btn-primary">+ Add Key</button>
-          </div>
-        </div>
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Key</th>
-              <th className="text-center">Value</th>
-              <th className="text-right">Created</th>
-              <th className="text-right">Last updated</th>
-              <th className="text-right"></th> {/* Actions */}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredKeys.map((key: KeyValueItem) => (
-              <tr key={key._id}>
-                <td>
-                  {key.key}
-                  <button 
-                    className="btn btn-link btn-sm text-dark" 
-                    onClick={() => setExpandedKey(key)}
-                    style={{ opacity: '0.8' }}
-                  >
-                    <i className="icon icon-edit"></i>
-                  </button>
-                </td>
-                <td className="text-center">
-                  <div className={ccn(styles.value_field, { 'input-group': key.hasChanged })}>
-                    <input onChange={e => onChangeKey(e, key._id)} type="text" className="form-input" value={key.value} />
-                    {key.hasChanged &&
-                       <button onClick={() => onSaveKey(key._id)} className="btn btn-primary input-group-btn">
-                        <i className="icon icon-check"></i>
-                      </button>
-                    }
-                  </div>
-                </td>
-                <td className="text-right">{simpleTimestamp(key.createdAt)}</td>
-                <td className="text-right">{simpleTimestamp(key.updatedAt)}</td>
-                <td className="text-right">
-                  <button onClick={() => onDeleteKey(key._id)} className="btn btn-action btn-link text-error">
-                    <i className="icon icon-delete" style={{ opacity: '0.9', fontSize: '14px' }}></i>
-                  </button>
-                </td>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th className="text-center">Value</th>
+                <th className="text-right">Created</th>
+                <th className="text-right">Last updated</th>
+                <th className="text-right"></th> {/* Actions */}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredKeys.map((key: KeyValueItem) => (
+                <tr key={key._id}>
+                  <td>
+                    {key.key}
+                    <button
+                      className="btn btn-link btn-sm text-dark"
+                      onClick={() => setExpandedKey(key)}
+                      style={{ opacity: '0.8' }}
+                    >
+                      <i className="icon icon-edit"></i>
+                    </button>
+                  </td>
+                  <td className="text-center">
+                    <div className={ccn(styles.value_field, { 'input-group': key.hasChanged })}>
+                      <input onChange={e => onChangeKey(e, key._id)} type="text" className="form-input" value={key.value} />
+                      {key.hasChanged &&
+                        <button onClick={() => onSaveKey(key._id)} className="btn btn-primary input-group-btn">
+                          <i className="icon icon-check"></i>
+                        </button>
+                      }
+                    </div>
+                  </td>
+                  <td className="text-right">{simpleTimestamp(key.createdAt)}</td>
+                  <td className="text-right">{simpleTimestamp(key.updatedAt)}</td>
+                  <td className="text-right">
+                    <button onClick={() => onDeleteKey(key._id)} className="btn btn-action btn-link text-error">
+                      <i className="icon icon-delete" style={{ opacity: '0.9', fontSize: '14px' }}></i>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
       </div>
     </AppLayout>
   )

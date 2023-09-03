@@ -16,7 +16,7 @@
   width: 100%;
 }
 
-@media(min-width: 425px) {
+@media(max-width: 425px) {
   .main_layout_content {
     padding: 20px;
   }

@@ -14,8 +14,8 @@ export default function Hero() {
             <h1>Key-Value storage, made simple.</h1>
             <p>Unlock the power of Key-Value Storage. Manage your data effortlessly with a user-friendly interface and a flexible pay-per-request model.</p>
             <div className={styles.ctas}>
-              <LinkButton className="btn btn-primary btn-lg">Get Started</LinkButton>
-              <LinkButton className="btn btn-link">
+              <LinkButton href="/auth/signup" className="btn btn-primary btn-lg">Get Started</LinkButton>
+              <LinkButton href="/docs" className="btn btn-link">
                 <i className="gg-terminal"></i>
                 Read the docs
               </LinkButton>

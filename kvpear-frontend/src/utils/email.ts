@@ -24,7 +24,7 @@ export const sendEmailMessage = async ({ to, subject, templateId, context }:
     };
 
     try {
-      await sgMail.send(msg);
+      return await sgMail.send(msg);
     } catch (error) {
       console.error(error);
     }

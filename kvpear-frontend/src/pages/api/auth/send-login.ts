@@ -19,15 +19,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (user) {
         // if email exists, create a new token
         const sealToken = await generateToken({ userId: user._id });
-        // TODO: send email
-        await sendEmailMessage({
+        const sendResult = await sendEmailMessage({
           to: email,
           subject: 'Login to KV Pear',
           templateId: EmailTemplate.LOGIN_SIGNUP,
           context: {
             login_link: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login?token=${sealToken}`
           }
-        })
+        });
+        console.log(sendResult);
       } else {
         // if email doesn't exist, create a new user
         const newUser = new User({
@@ -36,14 +36,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await newUser.save();
         // create a new token
         const sealToken = await generateToken(newUser._id);
-        await sendEmailMessage({
+        const sendResult = await sendEmailMessage({
           to: email,
           subject: 'Instant Sign Up to KV Pear',
           templateId: EmailTemplate.LOGIN_SIGNUP,
           context: {
-            login_link: `${process.env.NEXT_PUBLIC_BASE_URL}/login?token=${sealToken}`
+            login_link: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login?token=${sealToken}`
           }
-        })      }
+        });
+        console.log(sendResult);
+      }
       res.status(200).json({ message: 'success' });
   }
 }

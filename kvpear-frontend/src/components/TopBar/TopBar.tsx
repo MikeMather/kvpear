@@ -22,16 +22,19 @@ export default function TopBar() {
         <section className="navbar-section">
           <div className={styles.logo_container}>
             <Link href="/" className="navbar-brand mr-2">
-              <img src="/logos/default.svg" alt="logo" width="230" height="180" />
+              <img src="/logos/cover.png" alt="logo" width="180" height="70" />
             </Link>
           </div>
+          <LinkButton href="/docs" className="btn btn-link btn-lg">Documentation</LinkButton>
+          <LinkButton href="/guides" className="btn btn-link btn-lg">Guides</LinkButton>
+          <LinkButton href="/guides" className="btn btn-link btn-lg">Pricing</LinkButton>
         </section>
         {!isLoading && 
           <section className="navbar-section">
             {!user 
               ? <>
                   <LinkButton href="/auth/login" style={{ marginRight: '20px' }} className="btn-link btn-lg">Login</LinkButton>
-                  <LinkButton className="btn-primary btn-lg" href="/auth/login">Sign up</LinkButton>
+                  <LinkButton className="btn-primary btn-lg" href="/auth/signup">Sign up</LinkButton>
                 </>
               : <Dropdown
                 label="Account"
