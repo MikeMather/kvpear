@@ -1,6 +1,7 @@
 import { getServerSession } from '@/auth/session';
 import Layout from './layout'
 import Hero from '@/components/landing/Hero/Hero';
+import UseCases from '@/components/landing/UseCases/UseCases';
 
 export const getServerSideProps = async (ctx: any) => {
   const { req } = ctx;
@@ -23,6 +24,7 @@ export default function Home() {
   return (
     <Layout>
       <Hero />
+      <UseCases />
     </Layout>
   )
 }

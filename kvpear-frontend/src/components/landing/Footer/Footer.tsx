@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styles from './Footer.module.scss';
 import Image from 'next/image';
+import { ccn } from '@/styles/styleUtils';
 
 export default function Footer() {
 
@@ -14,7 +15,7 @@ export default function Footer() {
               <a href="mailto:info@kvpear.dev">info@kvpear.dev</a>
             </div>
           </div>
-          <div className="column col-6 col-sm-12">
+          <div className={ccn("column col-6 col-sm-12", styles.footer_logo)}>
             <Image src="/logos/default-monochrome-white.svg" width={180} height={180} />
           </div>
           <div className="column col-3 col-sm-12 flex-col">

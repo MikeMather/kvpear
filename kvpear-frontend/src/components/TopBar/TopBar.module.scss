@@ -8,6 +8,12 @@
   height: $topbar-height;
 }
 
+@media(max-width: 425px) {
+  .topbar {
+    padding: 10px;
+  }
+}
+
 .logo_container {
   display: flex;
   align-items: center;

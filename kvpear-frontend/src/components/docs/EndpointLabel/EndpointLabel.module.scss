@@ -1,0 +1,26 @@
+@import '../../../styles/variables';
+
+.container {
+  background-color: #dbdbdb;
+  border-radius: 4px;
+  max-width: 400px;
+  margin-bottom: 15px;
+  padding: 8px;
+
+  span {
+    margin-right: 10px;
+    font-family: 'Fira Code', monospace;
+  }
+}
+
+.post {
+  color: darken($success-color, 15%);
+}
+
+.get {
+  color: darken($primary-color, 15%);
+}
+
+.delete {
+  color: $error-color;
+}

@@ -1,0 +1,26 @@
+
+
+.section {
+  width: 100%;
+  padding: 30px;
+}
+
+.header {
+  width: 100%;
+  text-align: center;
+}
+
+.cards {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .card {
+    margin-right: 10px !important;
+  }
+
+  .card:last-of-type {
+    margin-right: 0 !important;
+  }
+}

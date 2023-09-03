@@ -37,10 +37,10 @@ export default function DocsLayout({ children }: PropsWithChildren<{}>) {
                 <Link href="#data-buckets">Buckets</Link>
                 <ul className="nav">
                   <li className="nav-item">
-                    <Link href="#create-your-bucket">Create</Link>
+                    <Link href="#create-bucket">Create</Link>
                   </li>
                   <li className="nav-item">
-                    <Link href="#buckets-list">List</Link>
+                    <Link href="#list-buckets">List</Link>
                   </li>
                 </ul>
               </li>
@@ -48,18 +48,16 @@ export default function DocsLayout({ children }: PropsWithChildren<{}>) {
                 <Link href="#keys">Keys</Link>
                 <ul className="nav">
                   <li className="nav-item">
-                    <Link href="#create-your-bucket">Create</Link>
+                    <Link href="#create-kv">Create</Link>
                   </li>
                   <li className="nav-item">
-                    <Link href="#buckets-list">List</Link>
+                    <Link href="#get-kv">Retrieve</Link>
                   </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <Link href="#use-cases">Use cases</Link>
-                <ul className="nav">
                   <li className="nav-item">
-                    <Link href="#create-your-bucket">Single table design</Link>
+                    <Link href="#list-kv">List</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link href="#delete-kv">Delete</Link>
                   </li>
                 </ul>
               </li>

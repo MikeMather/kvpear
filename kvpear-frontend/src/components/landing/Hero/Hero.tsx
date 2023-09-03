@@ -12,7 +12,13 @@ export default function Hero() {
           <div>
             <h1>Key-Value storage, made simple.</h1>
             <p>Unlock the power of Key-Value Storage. Manage your data effortlessly with a user-friendly interface and a flexible pay-per-request model.</p>
-            <button className="btn btn-primary btn-lg">Get Started</button>
+            <div className={styles.ctas}>
+              <button className="btn btn-primary btn-lg">Get Started</button>
+              <button className="btn btn-link">
+                <i className="gg-terminal"></i>
+                Read the docs
+              </button>
+            </div>
           </div>
         </div>
         <div className={ccn("column col-7 col-md-12 col-sm-12", styles.hero_column)}>
