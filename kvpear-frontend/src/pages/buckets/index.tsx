@@ -68,7 +68,7 @@ export default function Buckets({ buckets }: { buckets: BucketDocument[] }) {
           <tbody>
             {buckets.map((bucket: BucketDocument) => (
               <tr key={bucket._id}>
-                <td><Link href={`/app/buckets/${bucket._id}`} className="btn btn-link">{bucket.name}</Link></td>
+                <td><Link href={`/buckets/${bucket._id}`} className="btn btn-link">{bucket.name}</Link></td>
                 <td className="text-center">{bucket.keyCount}</td>
                 <td className="text-right">{simpleTimestamp(bucket.createdAt.toString())}</td>
               </tr>

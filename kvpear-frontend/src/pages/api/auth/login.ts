@@ -30,5 +30,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   setCookie('auth', await generateToken(sessionData), {
     req, res, maxAge: ironSessionOptions.cookieOptions.maxAge
   })
-  res.redirect('/app');
+  res.redirect('/buckets');
 };

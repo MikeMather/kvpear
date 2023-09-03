@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
 import { ccn } from "@/styles/styleUtils";
 import { useApi } from "@/utils/api";
+import { useState } from "react";
+import SecretField from "../../SecretField/SecretField";
 
 const enumValues = Object.values(ApiPermissions);
 
@@ -19,12 +21,22 @@ export default function NewApiKeyForm({ onComplete }: { onComplete: () => void }
   const { register, handleSubmit, formState: { errors }, getValues } = useForm({
     resolver: yupResolver(schema)
   });
+  const [createdKey, setCreatedKey] = useState<string | null>(null);
 
   const onSubmit = async (payload: any) => {
     const { isOk, data } = await post('/api/api-keys', payload);
-    if (isOk) {
-      onComplete();
+    if (isOk && data.key) {
+      setCreatedKey(data.key);
     }
+  }
+
+  if (createdKey) {
+    return (
+      <div>
+        <p style={{ marginBottom: '5px' }}>Your new API Key:</p>
+        <SecretField secret={createdKey} />
+      </div>
+    )
   }
 
   return (

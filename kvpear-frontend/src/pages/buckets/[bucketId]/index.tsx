@@ -149,7 +149,7 @@ export default function BucketPage({ bucket, keys }: any) {
       successMessage: 'Bucket deleted'
     });
     if (isOk) {
-      router.push('/app/buckets');
+      router.push('/buckets');
     }
   };
 

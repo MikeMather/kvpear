@@ -9,12 +9,14 @@ const createApiKey = async ({ name, userId, permissons }:
   { name: string, userId: string, permissons: string[] }) => {
   await getDb();
   const apiKey = crypto.randomBytes(16).toString('hex');
+  const keyHash = crypto.createHash('sha256').update(apiKey).digest('hex');
   const newApiKey = await ApiKey.create({
     name,
-    key: apiKey,
+    key: keyHash,
     userId,
     permissions: permissons,
   });
+  newApiKey.key = apiKey;
   return newApiKey;
 };
 

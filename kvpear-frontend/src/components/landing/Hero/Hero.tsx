@@ -1,6 +1,7 @@
 import { ccn } from "@/styles/styleUtils";
 import Image from "next/image";
 import styles from './Hero.module.scss';
+import { LinkButton } from "@/components/common/LinkButton";
 
 
 export default function Hero() {
@@ -13,11 +14,11 @@ export default function Hero() {
             <h1>Key-Value storage, made simple.</h1>
             <p>Unlock the power of Key-Value Storage. Manage your data effortlessly with a user-friendly interface and a flexible pay-per-request model.</p>
             <div className={styles.ctas}>
-              <button className="btn btn-primary btn-lg">Get Started</button>
-              <button className="btn btn-link">
+              <LinkButton className="btn btn-primary btn-lg">Get Started</LinkButton>
+              <LinkButton className="btn btn-link">
                 <i className="gg-terminal"></i>
                 Read the docs
-              </button>
+              </LinkButton>
             </div>
           </div>
         </div>

@@ -59,7 +59,6 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
             <tr>
               <th>Name</th>
               <th className="text-left">Permissions</th>
-              <th className="text-center">Key</th>
               <th className="text-right">Created</th>
               <th className="text-center">Actions</th>
             </tr>
@@ -74,9 +73,6 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
                       <code key={p}>{p}</code>
                     ))}
                   </div>
-                </td>
-                <td className="text-center">
-                  <SecretField secret={apiKey.key} />
                 </td>
                 <td className="text-right">{simpleTimestamp(apiKey.createdAt)}</td>
                 <td className="text-center">

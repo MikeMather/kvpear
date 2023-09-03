@@ -9,7 +9,7 @@ export const getServerSideProps = async (ctx: any) => {
   if (session) {
     return {
       redirect: {
-        destination: '/app',
+        destination: '/buckets',
         permanent: false,
       },
     };

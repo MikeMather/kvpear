@@ -11,6 +11,7 @@ export default function AppLayout({ children }: PropsWithChildren<{}>) {
   const activeRoute = router.pathname.split('/')[1];
 
   const isActiveRoute = (route: string) => {
+    console.log(activeRoute, route);
     return activeRoute === route ? 'active' : '';
   }
 
@@ -33,25 +34,17 @@ export default function AppLayout({ children }: PropsWithChildren<{}>) {
         <div className="columns">
           <div className={`${styles.sidebar} column col-3`}>
             <ul className="nav">
-              <li className={`nav-item ${isActiveRoute('app')}`}>
-                <Link href="/app">Dashboard</Link>
+              <li className={`nav-item ${isActiveRoute('buckets')}`}>
+                <Link href="/buckets">Buckets</Link>
               </li>
-              <li className={`nav-item ${isActiveRoute('app/buckets')}`}>
-                <Link href="/app/buckets">Buckets</Link>
+              <li className={`nav-item ${isActiveRoute('api-keys')}`}>
+                <Link href="/api-keys">API Keys</Link>
               </li>
-              <li className={`nav-item ${isActiveRoute('app/buckets')}`}>
-                <Link href="/app/api-keys">API Keys</Link>
+              <li className={`nav-item ${isActiveRoute('docs')}`}>
+               <Link href="/docs">Documentation</Link>
               </li>
-              <li className="nav-item">
-                <Link href="#">Development</Link>
-                <ul className="nav">
-                  <li className={`nav-item ${isActiveRoute('docs')}`}>
-                    <Link href="#">Documentation</Link>
-                  </li>
-                  <li className={`nav-item ${isActiveRoute('sandbox')}`}>
-                    <Link href="#">Sandbox</Link>
-                  </li>
-                </ul>
+              <li className={`nav-item ${isActiveRoute('sandbox')}`}>
+                <Link href="#">Sandbox</Link>
               </li>
               <li className="nav-item">
                 <Link href="#">Usage</Link>

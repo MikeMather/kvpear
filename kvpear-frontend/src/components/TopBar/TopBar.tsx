@@ -37,7 +37,7 @@ export default function TopBar() {
                 label="Account"
                 icon="people"
                 items={[
-                  { label: 'Profile', action: () => router.push('/app') },
+                  { label: 'Profile', action: () => router.push('/buckets') },
                   { label: 'Logout', action: logout },
                 ]}
               />

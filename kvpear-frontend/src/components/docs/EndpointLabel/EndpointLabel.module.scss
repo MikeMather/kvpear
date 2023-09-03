@@ -4,7 +4,7 @@
   background-color: #dbdbdb;
   border-radius: 4px;
   max-width: 400px;
-  margin-bottom: 15px;
+  margin-bottom: 40px;
   padding: 8px;
 
   span {
@@ -14,11 +14,11 @@
 }
 
 .post {
-  color: darken($success-color, 15%);
+  color: $warning-color;
 }
 
 .get {
-  color: darken($primary-color, 15%);
+  color: darken($success-color, 15%);
 }
 
 .delete {

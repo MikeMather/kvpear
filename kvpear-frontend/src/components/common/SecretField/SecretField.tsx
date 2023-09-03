@@ -16,7 +16,7 @@ export default function SecretField({ secret }: { secret: string }) {
     <div className="input-group">
       <input 
         className={ccn("form-input", styles.field)}
-        type="password" 
+        type="text" 
         value={secret} 
         disabled
       />
