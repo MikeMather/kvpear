@@ -2,6 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { ApiKeysService } from 'src/api-keys/api-keys.service';
+import { isAuthExempt } from 'src/utils/auth';
 
 @Injectable()
 export class ApiKeyMiddleware implements NestMiddleware {
@@ -9,11 +10,11 @@ export class ApiKeyMiddleware implements NestMiddleware {
 
   async use(req: FastifyRequest['raw'], res: FastifyReply['raw'], next: NextFunction) {
     const apiKey = req.headers['x-api-key'] as string;
-    // @ts-ignore
-    const isHealthCheck = req.originalUrl === '/health';
+
+    const skipAuth = isAuthExempt(req);
   
-    if (isHealthCheck) {
-      return res.end('ok')
+    if (skipAuth) {
+      return next();
     }
 
     if (!apiKey) {

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@fastify/helmet": "^11.0.0",
+    "@fastify/static": "^6.11.0",
     "@nestjs/cache-manager": "^2.1.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.1",
@@ -29,6 +30,7 @@
     "@nestjs/mongoose": "^10.0.1",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/platform-fastify": "^10.2.1",
+    "@nestjs/swagger": "^7.1.10",
     "@nestjs/throttler": "^4.2.1",
     "body-parser": "^1.20.2",
     "cache-manager": "^5.2.3",

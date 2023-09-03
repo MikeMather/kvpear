@@ -1,6 +1,5 @@
 import { ConfigurableModuleBuilder, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './users/users.module';
 import { BucketsModule } from './buckets/buckets.module';
 import { KeyValuesModule } from './key-values/key-values.module';
 import { ApiKeysModule } from './api-keys/api-keys.module';
@@ -12,7 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ApiKeysModule, UsersModule, BucketsModule, KeyValuesModule, MiddlewareModule,
+    ApiKeysModule, BucketsModule, KeyValuesModule, MiddlewareModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
