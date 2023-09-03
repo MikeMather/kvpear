@@ -61,7 +61,7 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
               <tr key={apiKey._id}>
                 <td>{apiKey.key}</td>
                 <td className="text-center flex-col">{apiKey.permissions.map(p => (
-                  <span>{p}</span>
+                  <span key={p}>{p}</span>
                 ))}</td>
                 <td className="text-right">{simpleTimestamp(apiKey.createdAt)}</td>
                 <td className="text-center">

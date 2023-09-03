@@ -33,7 +33,7 @@ export default function NewApiKeyForm() {
       <div className={ccn('form-group', { 'has-error': !!errors?.permissions })} style={{ marginTop: '20px' }}>
         <label>Permissions</label>
         {enumValues.map((permission) => (
-          <label className="form-checkbox c-hand" style={{ marginTop: '10px' }}>
+          <label key={permission} className="form-checkbox c-hand" style={{ marginTop: '10px' }}>
             <input type="checkbox" { ...register('permissions') } />
             <i className="form-icon"></i> {permission}
           </label>
