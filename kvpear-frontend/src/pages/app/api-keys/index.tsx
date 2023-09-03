@@ -11,6 +11,8 @@ import { simpleTimestamp } from "@/utils/datetime";
 import { useState } from "react";
 import { useModal } from "@/components/common/Modal/Modal";
 import NewApiKeyForm from "@/components/common/Forms/NewApiKeyForm/NewApiKeyForm";
+import SecretField from "@/components/common/SecretField/SecretField";
+import useSoftRefresh from "@/utils/hooks/useSoftRefresh";
 
 export const getServerSideProps = protectedSsrRoute(async (ctx: GetServerSideProps, session: UserDocument) => {
   await getDb();
@@ -27,6 +29,7 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
   const { del, isLoading, error } = useApi();
   const [filteredApiKeys, setFilteredApiKeys] = useState<ApiKeyDocument[]>(apiKeys);
   const { Modal, toggleModal } = useModal();
+  const softRefresh = useSoftRefresh();
 
 
   const deleteApiKey =  async(keyId: string) => {
@@ -38,10 +41,14 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
     }
   }
 
+  const onApiKeyCreated = () => {
+    softRefresh();
+  }
+
   return (
     <AppLayout>
       <Modal title="New API Key">
-        <NewApiKeyForm />
+        <NewApiKeyForm onComplete={onApiKeyCreated} />
       </Modal>
       <div className="page-header">
         <h1>API Keys</h1>
@@ -50,8 +57,9 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
       <table className="table">
           <thead>
             <tr>
-              <th>Key</th>
-              <th className="text-center">Permissions</th>
+              <th>Name</th>
+              <th className="text-left">Permissions</th>
+              <th className="text-center">Key</th>
               <th className="text-right">Created</th>
               <th className="text-center">Actions</th>
             </tr>
@@ -59,10 +67,17 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
           <tbody>
             {filteredApiKeys.map((apiKey) => (
               <tr key={apiKey._id}>
-                <td>{apiKey.key}</td>
-                <td className="text-center flex-col">{apiKey.permissions.map(p => (
-                  <span key={p}>{p}</span>
-                ))}</td>
+                <td>{apiKey.name}</td>
+                <td style={{ minHeight: '100%' }} className="text-left">
+                  <div className="flex-col">
+                    {apiKey.permissions.map(p => (
+                      <code key={p}>{p}</code>
+                    ))}
+                  </div>
+                </td>
+                <td className="text-center">
+                  <SecretField secret={apiKey.key} />
+                </td>
                 <td className="text-right">{simpleTimestamp(apiKey.createdAt)}</td>
                 <td className="text-center">
                   <button onClick={() => deleteApiKey(apiKey._id)} className="btn btn-link text-error">

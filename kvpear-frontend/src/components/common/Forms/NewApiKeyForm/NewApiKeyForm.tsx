@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
 import { ccn } from "@/styles/styleUtils";
+import { useApi } from "@/utils/api";
 
 const enumValues = Object.values(ApiPermissions);
 
@@ -13,14 +14,17 @@ const schema = yup.object().shape({
     .min(1, 'Permissions are required')
 });
 
-export default function NewApiKeyForm() {
-
-  const { register, handleSubmit, formState: { errors } } = useForm({
+export default function NewApiKeyForm({ onComplete }: { onComplete: () => void }) {
+  const { post, error, isLoading } = useApi();
+  const { register, handleSubmit, formState: { errors }, getValues } = useForm({
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (payload: any) => {
+    const { isOk, data } = await post('/api/api-keys', payload);
+    if (isOk) {
+      onComplete();
+    }
   }
 
   return (
@@ -34,14 +38,17 @@ export default function NewApiKeyForm() {
         <label>Permissions</label>
         {enumValues.map((permission) => (
           <label key={permission} className="form-checkbox c-hand" style={{ marginTop: '10px' }}>
-            <input type="checkbox" { ...register('permissions') } />
+            <input type="checkbox" { ...register('permissions', { required: true }) } value={permission} />
             <i className="form-icon"></i> {permission}
           </label>
         ))}
         {errors?.permissions && <p className="form-input-hint">{errors.permissions.message}</p>}
       </div>
+      {error && <p className="form-input-hint text-error">{error}</p>}
       <div className="form-group" style={{ marginTop: '20px' }}>
-        <button className="btn btn-primary float-right btn-lg">Create</button>
+        <button className="btn btn-primary float-right btn-lg">
+          {isLoading ? <i className="loading"></i> : 'Create'}
+        </button>
       </div>
     </form>
   )

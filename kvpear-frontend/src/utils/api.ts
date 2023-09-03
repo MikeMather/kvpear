@@ -66,8 +66,8 @@ export const useApi = (): useApiType => {
           toast.success(options.successMessage);
         }
       }
-    } catch (error) {
-      setError(error);
+    } catch (error: any) {
+      setError(error?.message || 'Something went wrong');
       if (options?.errorMessage) {
         toast.error(options.errorMessage);
       } else {

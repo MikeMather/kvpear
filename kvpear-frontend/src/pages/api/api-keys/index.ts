@@ -3,13 +3,15 @@ import { getDb } from "@/database/database";
 import ApiKey from "@/database/models/apiKey";
 import { UserType } from "@/database/models/user";
 import { NextApiRequest, NextApiResponse } from "next";
-
+import crypto from 'crypto';
 
 const createApiKey = async ({ name, userId, permissons }: 
   { name: string, userId: string, permissons: string[] }) => {
   await getDb();
+  const apiKey = crypto.randomBytes(16).toString('hex');
   const newApiKey = await ApiKey.create({
     name,
+    key: apiKey,
     userId,
     permissions: permissons,
   });
