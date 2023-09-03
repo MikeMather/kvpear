@@ -1,0 +1,40 @@
+
+.edit_form {
+  max-width: 600px;
+  margin: 0 auto;
+
+  details {
+    padding: 10px 0;
+  }
+
+  textarea {
+    margin-bottom: 20px;
+  }
+}
+
+.edit_field {
+  white-space: pre-wrap;
+  height: 100%;
+  max-height: 450px;
+}
+
+.full_height_modal {
+  min-height: 90vh !important;
+}
+
+.json_tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+
+  > div {
+    max-width: 300px;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}

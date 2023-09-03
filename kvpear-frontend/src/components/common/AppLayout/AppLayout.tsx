@@ -3,6 +3,7 @@ import styles from './appLayout.module.scss';
 import TopBar from "@/components/TopBar/TopBar";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Toaster } from "react-hot-toast";
 
 export default function AppLayout({ children }: PropsWithChildren<{}>) {
 
@@ -16,6 +17,18 @@ export default function AppLayout({ children }: PropsWithChildren<{}>) {
   return (
     <div className={styles.app_container}>
       <TopBar />
+      <Toaster 
+        position="top-center"
+        toastOptions={{
+          className: 'toast',
+          style: {
+            background: '#fff',
+            color: '#303742',
+            border: 'none',
+            borderRadius: '4px'
+          }
+        }}
+      />
       <div className={`${styles.app_layout} container`}>
         <div className="columns">
           <div className={`${styles.sidebar} column col-3`}>
@@ -25,6 +38,9 @@ export default function AppLayout({ children }: PropsWithChildren<{}>) {
               </li>
               <li className={`nav-item ${isActiveRoute('app/buckets')}`}>
                 <Link href="/app/buckets">Buckets</Link>
+              </li>
+              <li className={`nav-item ${isActiveRoute('app/buckets')}`}>
+                <Link href="/app/api-keys">API Keys</Link>
               </li>
               <li className="nav-item">
                 <Link href="#">Development</Link>

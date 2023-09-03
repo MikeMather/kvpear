@@ -2,11 +2,12 @@ import { useRouter } from 'next/router';
 import Layout from '../../layout';
 import styles from './login.module.scss';
 import Alert from '@/components/common/Alert/Alert';
-import { usePost } from '@/utils/api';
+import { useApi } from '@/utils/api';
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
+import { LinkButton } from '@/components/common/LinkButton';
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -15,7 +16,7 @@ type FormData = yup.InferType<typeof schema>;
 
 export default function Login() {
   const router = useRouter();
-  const { post, isLoading, error, isDone } = usePost()
+  const { post, isLoading, error, isDone } = useApi()
   const { handleSubmit, register } = useForm<FormData>({
     resolver: yupResolver(schema)
   });
@@ -37,7 +38,7 @@ export default function Login() {
               <h1>Check your email</h1>
               <p>We sent a link that you can use to login</p>
             </div>
-            <Link href="/" className="btn btn-primary">Go Home</Link>
+            <LinkButton href="/" className="btn-primary">Go Home</LinkButton>
           </div>
         </div>
       </Layout>

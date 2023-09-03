@@ -1,5 +1,4 @@
 
-
 export const doRedirect = (path: string) => {
   return {
     redirect: {

@@ -6,10 +6,28 @@ import { UserDocument, UserType } from "@/database/models/user";
 import { GetServerSideProps } from "next";
 import styles from './buckets.module.scss';
 import Link from "next/link";
+import mongoose from "mongoose";
+import { simpleTimestamp } from "@/utils/datetime";
+import { useModal } from "@/components/common/Modal/Modal";
+import NewBucketForm from "@/components/common/Forms/NewBucketForm/NewBucketForm";
+import { useRouter } from "next/router";
 
 export const getServerSideProps = protectedSsrRoute(async (ctx: GetServerSideProps, session: UserDocument) => {
   await getDb();
-  const buckets = await Bucket.find({ userId: session._id }) || [];
+  const buckets = await Bucket.aggregate([
+    { $match: { userId: new mongoose.Types.ObjectId(session._id) } },
+    { $lookup: { from: 'keyvalues', localField: '_id', foreignField: 'bucketId', as: 'keys' } },
+    { $addFields: { keyCount: { $size: '$keys' } } },
+    { $project: { 
+      name: 1,
+      createdAt: 1,
+      keyCount: 1,
+      _id: 1,
+      userId: 1,
+     } }
+  ])
+  .sort({ createdAt: 'desc' })
+  .exec();
   return {
     props: {
       buckets: JSON.parse(JSON.stringify(buckets))
@@ -18,9 +36,25 @@ export const getServerSideProps = protectedSsrRoute(async (ctx: GetServerSidePro
 });
 
 export default function Buckets({ buckets }: { buckets: BucketDocument[] }) {
+
+  const { Modal, toggleModal } = useModal();
+  const router = useRouter();
+
+  const onBucketCreated = (bucket: BucketDocument) => {
+    router.replace(router.asPath);
+  };
+
   return (
     <AppLayout>
-      <h1>Buckets</h1>
+      <Modal title="Create Bucket" size="sm">
+        <NewBucketForm 
+          onComplete={onBucketCreated}
+        />
+      </Modal>
+      <div className={styles.page_header}>
+        <h1>Buckets</h1>
+        <button className="btn btn-primary" onClick={toggleModal}>Create Bucket</button>
+      </div>
       <div className="divider"></div>
       <div className={styles.buckets_container}>
         <table className="table table-striped">
@@ -34,9 +68,9 @@ export default function Buckets({ buckets }: { buckets: BucketDocument[] }) {
           <tbody>
             {buckets.map((bucket: BucketDocument) => (
               <tr key={bucket._id}>
-                <td><Link href={`/buckets/${bucket._id}`} className="btn btn-link">{bucket.name}</Link></td>
-                <td className="text-center">15</td>
-                <td className="text-right">{bucket.createdAt.toString()}</td>
+                <td><Link href={`/app/buckets/${bucket._id}`} className="btn btn-link">{bucket.name}</Link></td>
+                <td className="text-center">{bucket.keyCount}</td>
+                <td className="text-right">{simpleTimestamp(bucket.createdAt.toString())}</td>
               </tr>
             ))}
           </tbody>

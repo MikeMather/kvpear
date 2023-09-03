@@ -7,7 +7,7 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
   return (
     <div className={styles.main_layout}>
       <TopBar />
-        <main>
+        <main className={styles.main_layout_content}>
           {children}
         </main>
     </div>

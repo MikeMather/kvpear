@@ -2,6 +2,7 @@ import { getDb } from "@/database/database"
 import User, { UserDocument } from "@/database/models/user";
 import { NextApiRequest, NextApiResponse } from "next"
 import { generateToken } from "@/auth/session";
+import { EmailTemplate, sendEmailMessage } from "@/utils/email";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
@@ -12,29 +13,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'POST':
       await getDb();
       // email from json body
-      const { email } = JSON.parse(req.body);
+      const { email } = req.body;
       // check if email exists in db
-      console.log('email', email);
       const user = await User.findOne({ email });
       if (user) {
-        console.log('user exists', user);
         // if email exists, create a new token
         const sealToken = await generateToken({ userId: user._id });
-        console.log('token', sealToken);
         // TODO: send email
+        await sendEmailMessage({
+          to: email,
+          subject: 'Login to KV Pear',
+          templateId: EmailTemplate.LOGIN_SIGNUP,
+          context: {
+            login_link: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login?token=${sealToken}`
+          }
+        })
       } else {
-        console.log('user does not exist');
         // if email doesn't exist, create a new user
         const newUser = new User({
           email: email,
         });
         await newUser.save();
-        console.log('Saved new user', user);
         // create a new token
-        const token = await generateToken(newUser._id);
-        console.log('token', token);
-        // TODO: send email
-      }
+        const sealToken = await generateToken(newUser._id);
+        await sendEmailMessage({
+          to: email,
+          subject: 'Instant Sign Up to KV Pear',
+          templateId: EmailTemplate.LOGIN_SIGNUP,
+          context: {
+            login_link: `${process.env.NEXT_PUBLIC_BASE_URL}/login?token=${sealToken}`
+          }
+        })      }
       res.status(200).json({ message: 'success' });
   }
 }

@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Layout from "./layout"
+import { LinkButton } from "@/components/common/LinkButton"
 
 export default function Custom404() {
 
@@ -17,7 +18,7 @@ export default function Custom404() {
         <p className="empty-title h3">This page doesn't exist</p>
         <p className="empty-subtitle">Sorry.</p>
         <div className="empty-action">
-          <Link href="/" className="btn btn-primary">Go home</Link>
+          <LinkButton href="/" className="btn btn-primary">Go home</LinkButton>
         </div>
       </div>
     </Layout>

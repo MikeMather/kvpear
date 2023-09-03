@@ -1,0 +1,15 @@
+@import '../../../styles/variables';
+
+.api_key {
+  border: 1px solid $gray-color;
+  background-color: $light-color;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.api_key_info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

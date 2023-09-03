@@ -1,5 +1,5 @@
 import { UserType } from "@/database/models/user";
-import { useGet } from "@/utils/api";
+import { useApi } from "@/utils/api";
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
 
 
@@ -8,7 +8,7 @@ export const authContext = createContext<{
 }>({ user: null, isLoading: true });
 
 const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
-  const { get, isLoading, error } = useGet();
+  const { get, isLoading, error } = useApi();
   const [user, setUser] = useState<UserType | null>(null);
 
   const getUser = async () => {

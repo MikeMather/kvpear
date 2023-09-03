@@ -1,3 +1,46 @@
 @import "variables";
 @import "node_modules/spectre.css/src/spectre";
 @import "node_modules/spectre.css/dist/spectre-icons.min.css";
+@import 'node_modules/css.gg/icons/icons.css';
+
+.modal-subtitle {
+  color: $gray-color;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+code {
+  font-family: "Fira Code", monospace;
+  border-radius: 5px !important;
+}
+
+code.block {
+  box-shadow: 3px 2px 6px 1px rgb(15 14 14 / 29%);
+  padding: 10px !important;
+  box-sizing: border-box !important;
+  line-height: 1.8 !important;
+  max-width: 700px;
+}
+
+code.block p {
+  margin: 0 !important;
+}
+
+.anchor-link {
+  color: $dark-color;
+  font-size: 1.2rem;
+  line-height: 2;
+  margin: 10px 0;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}

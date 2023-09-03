@@ -1,0 +1,65 @@
+import Highlight from 'react-highlight'
+import { Spacer } from '../../components/common/Mdx/Mdx';
+
+# Data Buckets
+<Spacer height={2} />
+
+## Create your bucket
+Buckets are the top level of the KV Pear hierarchy. They are used to group related data together. Buckets are created using the `POST` method on the `/buckets` endpoint. The name of the bucket is passed as the request body. The bucket name must be unique and can only contain letters, numbers, dashes and underscores. The bucket name is case sensitive.
+Return value is the bucket ID.
+<Highlight className="bash block">
+  &gt; curl -X POST -d "mybucket" http://localhost:8080/buckets
+  "64f3718e89f430a16ceaecfe"
+</Highlight>
+<Spacer height={3} />
+
+## List your buckets
+You can list all of your buckets using the `GET` method on the `/buckets` endpoint.
+<Highlight className="bash block">
+  &gt; curl -X GET http://localhost:8080/buckets
+  [&#123; "name": "mybucket", "created": "2023-01-01T00:00:00Z" &#125;]
+</Highlight>
+<Spacer height={3} />
+
+## Delete your bucket
+You can delete a bucket using the `DELETE` method on the `/buckets/[bucket_id]` endpoint.
+<Highlight className="bash block">
+  &gt; curl -X DELETE http://localhost:8080/buckets/64f3718e89f430a16ceaecfe
+</Highlight>
+<Spacer height={8} />
+
+# Key Values
+<Spacer height={2} />
+
+## Create or update a key value
+Key values are created or updated using the `POST` method on the `/keys/[bucket_id]/[key_name]` endpoint. The value string is passed in as the request body. 
+If the key exists, the value will be updated. If the key does not exist, it will be created.
+The key value must be unique within the bucket and can only contain letters, numbers, dashes and underscores. The key value is case sensitive.
+Return value is the key value string.
+<Highlight className="bash block">
+  &gt; curl -X POST -d "myvalue" http://localhost:8080/buckets/64f3718e89f430a16ceaecfe/mykey
+  "myvalue"
+</Highlight>
+<Spacer height={1} />
+Additional query parameters can be provided when creating a key value:
+- `json`: *boolean* - if true, the value string will be validated to be valid JSON. If the value is not valid JSON, an error will be returned. Default is false.
+<Spacer height={2}/>
+
+## Get a key value
+You can get a key value using the `GET` method on the `/keys/[bucket_id]/[key_name]` endpoint.
+<Highlight className="bash block">
+  &gt; curl -X GET http://localhost:8080/buckets/64f3718e89f430a16ceaecfe/mykey
+  "myvalue"
+</Highlight>
+<Spacer height={3} />
+
+## List your key values
+You can list all of your key values using the `GET` method on the `/keys/[bucket_id]` endpoint.
+<Highlight className="bash block">
+  &gt; curl -X GET http://localhost:8080/buckets/64f3718e89f430a16ceaecfe
+  [&#123; "name": "mykey", "value": "myvalue", "created": "2023-01-01T00:00:00Z" &#125;]
+</Highlight>
+<Spacer height={1} />
+You can provide additional query parameters to filter the results:
+- `prefix`: *string* - only return key values that start with the prefix
+- `regex`: *string* - only return key values that match the regex. The regex string must be URL encoded.

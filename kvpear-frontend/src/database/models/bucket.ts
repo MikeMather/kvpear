@@ -5,6 +5,7 @@ export interface BucketType {
   userId: string;
   createdAt: Date;
   updatedAt: Date;
+  keyCount?: number;
 }
 
 const BucketSchema = new Schema({

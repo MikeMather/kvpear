@@ -24,9 +24,14 @@ export const getServerSession = async (req: NextRequest | NextApiRequest) => {
   }
   const session = await unsealData(cookie, {
     password: process.env.SECRET as string,
-    ttl: 24 * 60 * 60, // 24 hours
+    ttl: 30 * 24 * 60 * 60,
   }) as string;
-  return JSON.parse(session);
+  
+  try {
+    return JSON.parse(session);
+  } catch (error) {
+    return null;
+  }
 };
 
 export const generateToken = async (content: any): Promise<string> => {
@@ -34,7 +39,8 @@ export const generateToken = async (content: any): Promise<string> => {
     content,
     {
       password: process.env.SECRET as string,
-      ttl: 24 * 60 * 60, // 24 hours
+      // 30 days
+      ttl: 30 * 24 * 60 * 60,
     }
   );
 }
@@ -55,7 +61,7 @@ export const protectedSsrRoute = (handler: any) => {
     if (!session) {
       return {
         redirect: {
-          destination: "/login",
+          destination: "/auth/login",
           permanent: false,
         },
       };

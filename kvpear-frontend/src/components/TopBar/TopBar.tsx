@@ -4,6 +4,7 @@ import { ironSessionOptions } from '@/auth/session';
 import { useRouter } from 'next/router';
 import { Dropdown } from '../common/Dropdown/Dropdown';
 import Link from 'next/link';
+import { LinkButton } from '../common/LinkButton';
 
 export default function TopBar() {
   const router = useRouter();
@@ -29,8 +30,8 @@ export default function TopBar() {
           <section className="navbar-section">
             {!user 
               ? <>
-                  <Link href="/auth/login" style={{ marginRight: '25px' }} className="navbar-brand">Login</Link>
-                  <Link href="/auth/login" className="btn btn-primary">Sign up</Link>
+                  <LinkButton href="/auth/login" style={{ marginRight: '20px' }} className="btn-link btn-lg">Login</LinkButton>
+                  <LinkButton className="btn-primary btn-lg" href="/auth/login">Sign up</LinkButton>
                 </>
               : <Dropdown
                 label="Account"
