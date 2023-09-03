@@ -1,5 +1,6 @@
 import { getServerSession } from '@/auth/session';
 import Layout from './layout'
+import Hero from '@/components/landing/Hero/Hero';
 
 export const getServerSideProps = async (ctx: any) => {
   const { req } = ctx;
@@ -21,6 +22,7 @@ export default function Home() {
 
   return (
     <Layout>
+      <Hero />
     </Layout>
   )
 }

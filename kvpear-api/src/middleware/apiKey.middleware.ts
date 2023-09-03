@@ -8,7 +8,7 @@ export class ApiKeyMiddleware implements NestMiddleware {
   constructor(private readonly apiKeysService: ApiKeysService) {}
 
   async use(req: FastifyRequest['raw'], res: FastifyReply['raw'], next: NextFunction) {
-    const apiKey = req.headers['api-key'] as string;
+    const apiKey = req.headers['x-api-key'] as string;
     // @ts-ignore
     const isHealthCheck = req.originalUrl === '/health';
   

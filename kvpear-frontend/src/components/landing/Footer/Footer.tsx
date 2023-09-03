@@ -8,13 +8,17 @@ export default function Footer() {
     <div className={styles.footer}>
       <div className={styles.footer_content}>
         <div className="columns container">
-          <div className="column col-3">
+          <div className="column col-3 col-sm-12">
+            <div className={styles.contact}>
+              <p>Questions?</p>
+              <a href="mailto:info@kvpear.dev">info@kvpear.dev</a>
+            </div>
+          </div>
+          <div className="column col-6 col-sm-12">
             <Image src="/logos/default-monochrome-white.svg" width={180} height={180} />
           </div>
-          <div className="column col-6">
-          </div>
-          <div className="column col-3 flex-col">
-            <ul style={{ listStyle: 'none' }}>
+          <div className="column col-3 col-sm-12 flex-col">
+            <ul style={{ listStyle: 'none', margin: '10px 0' }}>
               <li><Link href="/">Home</Link></li>
               <li><Link href="/docs">Documentation</Link></li>
               <li><Link href="/auth/login">Login</Link></li>

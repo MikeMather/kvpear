@@ -3,9 +3,10 @@ import { getDb } from "@/database/database";
 import KeyValue from "@/database/models/keyValue";
 import { UserType } from "@/database/models/user";
 import { serialize } from "@/utils/api";
+import { convertToRightType } from "@/utils/objects";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const createKey = async ({ key, value, bucketId, userId }: { key: string, value: string, bucketId: string, userId: string }) => {
+const createKey = async ({ key, value, bucketId, userId }: { key: string, value: any, bucketId: string, userId: string }) => {
   await getDb();
   const newKey = await KeyValue.create({
     key,
@@ -28,6 +29,7 @@ export default protectedApiRoute(async function handler(req: NextApiRequest, res
     res.status(400).json({ message: "Missing key, value or bucketId" });
     return;
   }
-  const newKey = await createKey({ key, value, bucketId, userId: user._id });
+  const val = convertToRightType(value);
+  const newKey = await createKey({ key, value: val, bucketId, userId: user._id });
   res.status(201).json(newKey);
 });
