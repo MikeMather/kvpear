@@ -60,7 +60,7 @@ export default function AppLayout({ children }: PropsWithChildren<{}>) {
               </li>
             </ul>
           </div>
-          <div className={`${styles.main_content} column col-10`}>
+          <div className={`${styles.main_content} column col-10 col-sm-12 col-md-12`}>
             {children}
           </div>
         </div>
