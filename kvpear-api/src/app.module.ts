@@ -8,6 +8,8 @@ import { MiddlewareModule } from './middleware/middleware.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { BillingModule } from './billing/billing.module';
+import { UsageMiddleware } from './middleware/usage.middleware';
 
 @Module({
   imports: [
@@ -22,10 +24,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         uri: config.get<string>('DATABASE_URI'), // Loaded from .ENV
       })
     }),
-    ThrottlerModule.forRoot({
+    ThrottlerModule.forRoot({ // 10 requests per second
       ttl: 60,
-      limit: 30
-    })
+      limit: 10,
+    }),
+    BillingModule
   ],
   controllers: [],
   providers: [{
@@ -36,6 +39,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 export class AppModule implements NestModule {
 
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ApiKeyMiddleware).forRoutes('*')
+    consumer.apply(ApiKeyMiddleware).forRoutes('*');
+    consumer.apply(UsageMiddleware).forRoutes('*');
   }
 }

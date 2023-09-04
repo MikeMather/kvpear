@@ -6,6 +6,7 @@ import { MiddlewareModule } from 'src/middleware/middleware.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { MongooseModule } from '@nestjs/mongoose';
 import { KeyValueSchema } from './schemas/keyValues.schema';
+import { BucketSchema } from 'src/buckets/schemas/buckets.schema';
 
 @Module({
   controllers: [KeyValuesController],
@@ -19,6 +20,9 @@ import { KeyValueSchema } from './schemas/keyValues.schema';
     }),
     MongooseModule.forFeature([
       { name: 'KeyValue', schema: KeyValueSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: 'Bucket', schema: BucketSchema },
     ]),
   ],
   exports: [

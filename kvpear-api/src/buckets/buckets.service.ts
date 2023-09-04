@@ -24,13 +24,17 @@ export class BucketsService {
     return this.bucketModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Bucket> {
-    return this.bucketModel.findById(id).exec();
+  async findOne({ name, userId }: { name: string, userId: string }): Promise<Bucket> {
+    return this.bucketModel.findOne({ name, userId }).exec();
   }
 
-  async remove(id: string): Promise<Bucket> {
-    const bucket = await this.bucketModel.findByIdAndRemove(id).exec();
-    await this.keyValuesService.removeAllForBucket(id);
+  async remove({ name, userId }: { name: string, userId: string }): Promise<Bucket> {
+    const bucket = await this.bucketModel.findOne({ name, userId }).exec();
+    if (!bucket) {
+      return null;
+    }
+    await this.keyValuesService.removeAllForBucket(bucket._id);
+    await bucket.deleteOne();
     return bucket;
   }
 }

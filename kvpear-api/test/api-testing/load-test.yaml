@@ -1,51 +1,57 @@
 config:
-  target: 'http://localhost:8080'  # Replace with your API endpoint
+  plugins:
+    expect: {}
+  target: "http://localhost:8080" # Replace with your API endpoint
   phases:
-    - duration: 10
+    - duration: 1
       arrivalRate: 1
+  defaults:
+    headers:
+      x-api-key: "d8564c31f05f8ce3af28e0f0d317b64e"
+      Content-Type: 'text/plain'
+  processor: ./processor.js
+  beforeRequest:
 
 scenarios:
-  - flow:
+  - beforeScenario: generateVars
+    name: "Test"
+    flow:
       - post:
-          url: '/buckets'
-          json:
-            data: 'bucket'
-        capture:
-          - json: '$.id'
-            as: 'bucketId'
+          url: "/buckets"
+          body: "{{ bucket }}"
+          expect:
+            - statusCode: 201
 
       - post:
-          url: '/kvs/{{ bucketId }}/my-key'
-          json:
-            data: 'your-text-value'  # Replace with your desired text value
-        capture:
-          - json: '$'
-            as: 'postedData'
-      
-      - get:
-          url: '/kvs/{{ bucketId }}/my-key'
-        capture:
-          - json: '$'
-            as: 'retrievedData'
-      
-      - loop:
-          - get:
-              url: '/kvs/{{ bucketId }}/my-key'
-          - expect:
-              - statusCode: 200
-              - json: '$.data'
-                equals: '{{ postedData }}'
+          url: "/kvs/{{ bucket }}/{{ keyName }}"
+          body: "{{ value }}"
+          expect:
+            - statusCode: 201
+            - matchesRegexp: "{{ value }}"
 
       - loop:
           - get:
-              url: '/kvs/{{ bucketId }}?prefix=my'
-          - expect:
-              - statusCode: 200
-              - json: '$.length'
-                equals: 1
-      
+              url: "/kvs/{{ bucket }}/{{ keyName }}"   
+              expect:
+                - statusCode: 200
+                - matchesRegexp: "{{ value }}"
+        count: 10
+
+      - loop:
+          - get:
+              url: "/kvs/{{ bucket }}?prefix={{ keyNamePrefix }}"
+              capture:
+                - json: "$[0].value"
+                  as: "responseValue"
+              expect:
+                - statusCode: 200
+                - equals:
+                  - "{{ value }}"
+                  - "{{ responseValue }}"
+        count: 10
+
       - delete:
-          url: '/kvs/{{ bucketId }}/my-key'
-      
+          url: "/kvs/{{ bucket }}/{{ keyName }}"
+
       - delete:
-          url: '/buckets/{{ bucketId }}'
+          url: "/buckets/{{ bucket }}"

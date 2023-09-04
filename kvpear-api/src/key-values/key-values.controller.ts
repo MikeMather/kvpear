@@ -18,19 +18,19 @@ import { ValidateMongoId } from 'src/utils/validation';
 export class KeyValuesController {
   constructor(private readonly keyValuesService: KeyValuesService) {}
 
-  @Post(':bucketId/:key')
+  @Post(':bucketName/:key')
   @HttpCode(201)
   @InvalidateCache()
   @UseGuards(ScopedPermissionsGuard)
   @Permissions(ApiPermissions.WRITE_KEY_VALUE)
   async create(@Param('key') key: string, 
-        @Param('bucketId', ValidateMongoId) bucketId: string,
+        @Param('bucketName') bucketName: string,
         @Req() req: RawBodyRequest<FastifyRequest>
   ) {
     const value = req.body as string;
     const isIncrement = value.startsWith('+') || value.startsWith('-');
     const query = {
-      bucketId,
+      bucketName,
       userId: req.raw['session'].userId,
       key,
       value
@@ -43,27 +43,26 @@ export class KeyValuesController {
     return res.value;
   }
 
-  @Get(':bucketId/:key')
+  @Get(':bucketName/:key')
   @Cache()
   @UseGuards(ScopedPermissionsGuard)
   @Permissions(ApiPermissions.READ_KEY_VALUE)
   async findOne(@Param('key') key: string, 
-          @Param('bucketId', ValidateMongoId) bucketId: string,
+          @Param('bucketName') bucketName: string,
           @Req() req: RawBodyRequest<FastifyRequest>
   ) {
     const val = await this.keyValuesService.read({
-      bucketId,
+      bucketName,
       userId: req.raw['session'].userId,
       key
     });
     return val.value;
   }
 
-  @Get(':bucketId')
+  @Get(':bucketName')
   @UseGuards(ScopedPermissionsGuard)
   @Permissions(ApiPermissions.READ_KEY_VALUE)
-  async findAll(@Param('key') key: string, 
-          @Param('bucketId', ValidateMongoId) bucketId: string,
+  async findAll(@Param('bucketName') bucketName: string,
           @Req() req: RawBodyRequest<FastifyRequest>,
           @Query('prefix') prefix: string,
           @Query('regex') regex: string
@@ -72,20 +71,20 @@ export class KeyValuesController {
       if (regex) {
         const unencodedRegex = decodeURIComponent(regex);
         const kvs = await this.keyValuesService.findByRegex({
-          bucketId,
+          bucketName,
           userId: req.raw['session'].userId,
           regex: unencodedRegex
         });
         return formatKvPairs(kvs);
       }
       const kvs = await this.keyValuesService.findAll({
-        bucketId,
+        bucketName,
         userId: req.raw['session'].userId
       });
       return formatKvPairs(kvs);
     }
     const kvs = await this.keyValuesService.findByPrefix({
-      bucketId,
+      bucketName,
       userId: req.raw['session'].userId,
       prefix
     });
@@ -95,13 +94,13 @@ export class KeyValuesController {
   @InvalidateCache()
   @HttpCode(204)
   @InvalidateCache()
-  @Delete(':bucketId/:key')
+  @Delete(':bucketName/:key')
   async remove(@Param('key') key: string, 
-        @Param('bucketId', ValidateMongoId) bucketId: string,
+        @Param('bucketName') bucketName: string,
         @Req() req: RawBodyRequest<FastifyRequest>
     ) {
     const deleted = await this.keyValuesService.unset({
-      bucketId,
+      bucketName,
       userId: req.raw['session'].userId,
       key
     });

@@ -19,3 +19,5 @@ export class KeyValue extends mongoose.Document {
 }
 
 export const KeyValueSchema = SchemaFactory.createForClass(KeyValue);
+
+KeyValueSchema.index({ key: 1 });

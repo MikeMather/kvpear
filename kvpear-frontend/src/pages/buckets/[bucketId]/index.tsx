@@ -226,7 +226,10 @@ export default function BucketPage({ bucket, keys }: any) {
                   >Save</button>
                   <button
                     className="btn btn-link input-group-btn btn-lg"
-                    onClick={() => setEditingBucket(false)}
+                    onClick={() => {
+                      setEditingBucket(false);
+                      setBucketName(bucket.name);
+                    }}
                   >Cancel</button>
                 </div>
                 <span className="form-input-hint text-error">{bucketEditError}</span>
@@ -256,8 +259,6 @@ export default function BucketPage({ bucket, keys }: any) {
               </div>
             </div>
             <div className={ccn("column col-7 flex-center", styles.id_copy)}>
-              <span>Bucket ID:</span>
-              <SecretField secret={bucket._id} />
             </div>
             <div className="column col-2 text-right">
               <button onClick={toggleModal} className="btn btn-primary">+ Add Key</button>

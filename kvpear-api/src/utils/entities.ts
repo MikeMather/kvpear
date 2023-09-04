@@ -31,8 +31,8 @@ export const formatKvPairs = (keyValuePairs: any[]) => {
   if (!keyValuePairs) {
     return [];
   }
-  return keyValuePairs.reduce((acc, curr) => {
-    acc[curr.key] = curr.value;
-    return acc;
-  }, {});
+  return keyValuePairs.map(kv => ({
+    key: kv.key,
+    value: kv.value,
+  }));
 }
