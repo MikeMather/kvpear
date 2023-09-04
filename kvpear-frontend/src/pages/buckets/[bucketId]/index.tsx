@@ -248,7 +248,7 @@ export default function BucketPage({ bucket, keys }: any) {
             </div>
           </div>
           <div className="columns mb-2">
-            <div className="column col-3">
+            <div className="column col-3 col-sm-6">
               <div className="input-group">
                 <input
                   type="text"
@@ -258,7 +258,7 @@ export default function BucketPage({ bucket, keys }: any) {
                 />
               </div>
             </div>
-            <div className={ccn("column col-7 flex-center", styles.id_copy)}>
+            <div className={ccn("column col-7 col-sm-3 flex-center", styles.id_copy)}>
             </div>
             <div className="column col-2 text-right">
               <button onClick={toggleModal} className="btn btn-primary">+ Add Key</button>

@@ -47,7 +47,7 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
 
   return (
     <AppLayout>
-      <Modal title="New API Key">
+      <Modal title="New API Key" onClose={onApiKeyCreated}>
         <NewApiKeyForm onComplete={onApiKeyCreated} />
       </Modal>
       <div className="page-header">

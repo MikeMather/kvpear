@@ -68,7 +68,7 @@ export default function LoginSignupForm({ title, subtitle, children }: PropsWith
           </div>
           <button type="submit" className={`btn btn-primary ${isLoading && 'loading'}`}>Submit</button>
         </form>
-        <div>{children}</div>
+        <div className={styles.children_container}>{children}</div>
         {router.query.error || error && (
           <div className={styles.alert}>
             <Alert type="error">

@@ -24,3 +24,26 @@
   max-width: 160px;
   cursor: pointer;
 }
+
+.menu_button {
+  display: none;
+}
+
+.nav_items {
+  display: flex;
+  align-items: center;
+}
+
+@media(max-width: 768px) {
+  .menu_button {
+    display: block;
+  }
+
+  .nav_items {
+    display: none;
+  }
+
+  .logo_container {
+    max-width: 140px;
+  }
+}

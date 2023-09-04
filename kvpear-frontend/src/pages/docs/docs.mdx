@@ -11,7 +11,6 @@ Buckets are the top level of the KV Pear hierarchy. They are used to group relat
 Return value is the bucket ID.
 <Highlight className="bash block">
   &gt; curl -X POST -d "mybucket" http://localhost:8080/buckets
-  "64f3718e89f430a16ceaecfe"
 </Highlight>
 <Spacer height={4} />
 <hr />
@@ -29,10 +28,10 @@ You can list all of your buckets using the `GET` method on the `/buckets` endpoi
 
 <Spacer height={1} />
 <h2 id="delete-buckets">Delete a bucket</h2>
-<EndpointLabel method="DELETE" path="/v1/buckets/:bucketId" />
-You can delete a bucket using the `DELETE` method on the `/buckets/:bucketId` endpoint.
+<EndpointLabel method="DELETE" path="/v1/buckets/:bucketName" />
+You can delete a bucket using the `DELETE` method on the `/buckets/:bucketName` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X DELETE http://localhost:8080/buckets/64f3718e89f430a16ceaecfe
+  &gt; curl -X DELETE http://localhost:8080/buckets/mybucket
 </Highlight>
 <Spacer height={8} />
 
@@ -40,13 +39,13 @@ You can delete a bucket using the `DELETE` method on the `/buckets/:bucketId` en
 <Spacer height={2} />
 
 <h2 id="create-kv">Create or update a value</h2>
-<EndpointLabel method="POST" path="/v1/kvs/:bucketId/:keyName" />
-Key values are created or updated using the `POST` method on the `/kvs/:bucketId/:keyName` endpoint. The value string is passed in as the request body. 
+<EndpointLabel method="POST" path="/v1/kvs/:bucketName/:keyName" />
+Key values are created or updated using the `POST` method on the `/kvs/:bucketName/:keyName` endpoint. The value string is passed in as the request body. 
 If the key exists, the value will be updated. If the key does not exist, it will be created.
 The key value must be unique within the bucket and can only contain letters, numbers, dashes and underscores. The key value is case sensitive.
 Return value is the key value string.
 <Highlight className="bash block">
-  &gt; curl -X POST -d "myvalue" http://localhost:8080/buckets/64f3718e89f430a16ceaecfe/mykey
+  &gt; curl -X POST -d "myvalue" http://localhost:8080/buckets/myBucket/mykey
   "myvalue"
 </Highlight>
 <Spacer height={4} />
@@ -54,10 +53,10 @@ Return value is the key value string.
 
 <Spacer height={1} />
 <h2 id="get-kv">Get a value</h2>
-<EndpointLabel method="GET" path="/v1/kvs/:bucketId/:keyName" />
-You can get a key value using the `GET` method on the `/kvs/:bucketId/:keyName` endpoint.
+<EndpointLabel method="GET" path="/v1/kvs/:bucketName/:keyName" />
+You can get a key value using the `GET` method on the `/kvs/:bucketName/:keyName` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X GET http://localhost:8080/buckets/64f3718e89f430a16ceaecfe/mykey
+  &gt; curl -X GET http://localhost:8080/buckets/myBucket/mykey
   "myvalue"
 </Highlight>
 <Spacer height={4} />
@@ -65,10 +64,10 @@ You can get a key value using the `GET` method on the `/kvs/:bucketId/:keyName` 
 
 <Spacer height={1} />
 <h2 id="list-kv">List/search values</h2>
-<EndpointLabel method="GET" path="/v1/kvs/:bucketId" />
-You can list all of your key values using the `GET` method on the `/kvs/:bucketId` endpoint.
+<EndpointLabel method="GET" path="/v1/kvs/:bucketName" />
+You can list all of your key values using the `GET` method on the `/kvs/:bucketName` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X GET http://localhost:8080/buckets/64f3718e89f430a16ceaecfe
+  &gt; curl -X GET http://localhost:8080/buckets/myBucket
   [&#123; "name": "mykey", "value": "myvalue", "created": "2023-01-01T00:00:00Z" &#125;]
 </Highlight>
 <Spacer height={1} />
@@ -80,9 +79,9 @@ You can provide additional query parameters to filter the results:
 
 <Spacer height={1} />
 <h2 id="delete-kv">Delete a value</h2>
-<EndpointLabel method="GET" path="/v1/kvs/:bucketId/:keyName" />
-You can delete a key-value pair using the `DELETE` method on the `/v1/kvs/:bucketId/:keyName` endpoint.
+<EndpointLabel method="GET" path="/v1/kvs/:bucketName/:keyName" />
+You can delete a key-value pair using the `DELETE` method on the `/v1/kvs/:bucketName/:keyName` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X DELETE http://localhost:8080/buckets/64f3718e89f430a16ceaecfe/myKey
+  &gt; curl -X DELETE http://localhost:8080/buckets/myBucket/myKey
 </Highlight>
 <Spacer height={4} />

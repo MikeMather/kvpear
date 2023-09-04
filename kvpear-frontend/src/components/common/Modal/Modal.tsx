@@ -6,6 +6,7 @@ type Props = PropsWithChildren<{
   subtitle?: string;
   size?: 'sm' | 'md' | 'lg';
   className?: string;
+  onClose?: () => void;
 }>
 
 const sizes: {[key: string]: string} = {
@@ -21,23 +22,31 @@ export const useModal = (defaultOpen?: boolean) => {
     setOpen(!open);
   };
 
-  const Modal = useCallback(({ title, subtitle, children, className='', size='md' }: Props) => (
-    <div className={ccn('modal', sizes[size], { active: open })} id="modal-id">
-      <a onClick={toggleModal} className="modal-overlay" aria-label="Close"></a>
-      <div className={ccn("modal-container", className)}>
-        <div className="modal-header">
-          <button className="btn btn-clear float-right" aria-label="Close" onClick={toggleModal}></button>
-          <div className="modal-title h5">{title}</div>
-          {subtitle && <div className="modal-subtitle">{subtitle}</div>}
-        </div>
-        <div className="modal-body">
-          <div className="content">
-            {children}
+  const Modal = useCallback(({ title, subtitle, children, onClose, className='', size='md' }: Props) => {
+    
+    const onModalClickOut = () => {
+      if (onClose) onClose();
+      toggleModal();
+    };
+
+    return (
+      <div className={ccn('modal', sizes[size], { active: open })} id="modal-id">
+        <a onClick={onModalClickOut} className="modal-overlay" aria-label="Close"></a>
+        <div className={ccn("modal-container", className)}>
+          <div className="modal-header">
+            <button className="btn btn-clear float-right" aria-label="Close" onClick={onModalClickOut}></button>
+            <div className="modal-title h5">{title}</div>
+            {subtitle && <div className="modal-subtitle">{subtitle}</div>}
+          </div>
+          <div className="modal-body">
+            <div className="content">
+              {children}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  ), [open, toggleModal]);
+    )
+  }, [open, toggleModal]);
 
 
   return {

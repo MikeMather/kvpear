@@ -31,7 +31,7 @@ export default function DocsLayout({ children }: PropsWithChildren<{}>) {
     <MDXProvider components={{ h1: H1, h2: H2 }}>
       <div className="container">
         <div className="columns">
-          <div className="column col-3 col-sm-12">
+          <div className="column col-3 hide-xs">
             <ul className="nav" style={{ position: 'fixed' }}>
               <li className="nav-item">
                 <Link href="#buckets">Buckets</Link>

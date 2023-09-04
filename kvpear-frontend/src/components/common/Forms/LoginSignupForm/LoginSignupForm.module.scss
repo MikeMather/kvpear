@@ -6,7 +6,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 85vh;
+  height: 100vh;
 
   > div {
     width: 100%;
@@ -20,8 +20,8 @@
 
 .login_container {
   width: 100%;
-  height: calc(85vh - $topbar-height);
-  max-height: calc(85vh - $topbar-height);
+  height: calc(100vh - $topbar-height);
+  max-height: calc(100vh - $topbar-height);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,5 +66,15 @@
 
   * {
     margin-right: 10px;
+  }
+}
+
+.children_container {
+  
+}
+
+@media(max-width: 426px) {
+  .children_container {
+    max-width: 300px;
   }
 }

@@ -6,7 +6,7 @@ import { Dropdown } from '../common/Dropdown/Dropdown';
 import Link from 'next/link';
 import { LinkButton } from '../common/LinkButton';
 
-export default function TopBar() {
+export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
   const router = useRouter();
   const { user, isLoading } = useAuth();
 
@@ -20,14 +20,19 @@ export default function TopBar() {
     <div className={styles.topbar}>
       <header className="navbar">
         <section className="navbar-section">
+          <button className={`btn btn-link ${styles.menu_button}`} onClick={onMenuOpen}>
+            <i className="icon icon-menu"></i>
+          </button>
           <div className={styles.logo_container}>
             <Link href="/" className="navbar-brand mr-2">
               <img src="/logos/cover.png" alt="logo" width="180" height="70" />
             </Link>
           </div>
-          <LinkButton href="/docs" className="btn btn-link btn-lg">Documentation</LinkButton>
-          <LinkButton href="/guides" className="btn btn-link btn-lg">Guides</LinkButton>
-          <LinkButton href="/guides" className="btn btn-link btn-lg">Pricing</LinkButton>
+          <div className={styles.nav_items}>
+            <LinkButton href="/docs" className="btn btn-link btn-lg">Documentation</LinkButton>
+            <LinkButton href="/guides" className="btn btn-link btn-lg">Guides</LinkButton>
+            <LinkButton href="/guides" className="btn btn-link btn-lg">Pricing</LinkButton>
+          </div>
         </section>
         {!isLoading && 
           <section className="navbar-section">
