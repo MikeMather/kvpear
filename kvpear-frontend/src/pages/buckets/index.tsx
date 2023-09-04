@@ -18,16 +18,18 @@ export const getServerSideProps = protectedSsrRoute(async (ctx: GetServerSidePro
     { $match: { userId: new mongoose.Types.ObjectId(session._id) } },
     { $lookup: { from: 'keyvalues', localField: '_id', foreignField: 'bucketId', as: 'keys' } },
     { $addFields: { keyCount: { $size: '$keys' } } },
-    { $project: { 
-      name: 1,
-      createdAt: 1,
-      keyCount: 1,
-      _id: 1,
-      userId: 1,
-     } }
+    {
+      $project: {
+        name: 1,
+        createdAt: 1,
+        keyCount: 1,
+        _id: 1,
+        userId: 1,
+      }
+    }
   ])
-  .sort({ createdAt: 'desc' })
-  .exec();
+    .sort({ createdAt: 'desc' })
+    .exec();
   return {
     props: {
       buckets: JSON.parse(JSON.stringify(buckets))
@@ -47,7 +49,7 @@ export default function Buckets({ buckets }: { buckets: BucketDocument[] }) {
   return (
     <AppLayout>
       <Modal title="Create Bucket" size="sm">
-        <NewBucketForm 
+        <NewBucketForm
           onComplete={onBucketCreated}
         />
       </Modal>
@@ -57,24 +59,37 @@ export default function Buckets({ buckets }: { buckets: BucketDocument[] }) {
       </div>
       <div className="divider"></div>
       <div className={styles.buckets_container}>
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th className="text-center">Keys</th>
-              <th className="text-right">Created at</th>
-            </tr>
-          </thead>
-          <tbody>
-            {buckets.map((bucket: BucketDocument) => (
-              <tr key={bucket._id}>
-                <td><Link href={`/buckets/${bucket._id}`} className="btn btn-link">{bucket.name}</Link></td>
-                <td className="text-center">{bucket.keyCount}</td>
-                <td className="text-right">{simpleTimestamp(bucket.createdAt.toString())}</td>
+        {buckets.length === 0
+          ? <div className="empty">
+            <div className="empty-icon">
+              <i className="icon icon-people"></i>
+            </div>
+            <p className="empty-title h5">You don't have any buckets yet</p>
+            <div className="empty-subtitle">Create a new bucket using the button below, or view the <Link href="/docs">documentation</Link> to see how to create buckets programmatically.
+            </div>
+            <div className="empty-action">
+              <button className="btn btn-primary" onClick={toggleModal}>Create a bucket</button>
+            </div>
+          </div>
+          : <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th className="text-center">Keys</th>
+                <th className="text-right">Created at</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {buckets.map((bucket: BucketDocument) => (
+                <tr key={bucket._id}>
+                  <td><Link href={`/buckets/${bucket._id}`} className="btn btn-link">{bucket.name}</Link></td>
+                  <td className="text-center">{bucket.keyCount}</td>
+                  <td className="text-right">{simpleTimestamp(bucket.createdAt.toString())}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        }
       </div>
     </AppLayout >
   )

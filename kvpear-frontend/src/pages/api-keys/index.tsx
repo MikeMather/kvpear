@@ -32,7 +32,7 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
   const softRefresh = useSoftRefresh();
 
 
-  const deleteApiKey =  async(keyId: string) => {
+  const deleteApiKey = async (keyId: string) => {
     const isConfirmed = confirm("Are you sure you want to delete this API key? Any applications using this key will no longer have access to your buckets.");
     if (!isConfirmed) return;
     const { isOk } = await del(`/api/api-keys/${keyId}`);
@@ -54,7 +54,18 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
         <h1>API Keys</h1>
         <button className="btn btn-primary" onClick={toggleModal}>New API Key</button>
       </div>
-      <table className="table">
+      {apiKeys.length === 0
+        ? <div className="empty">
+          <div className="empty-icon">
+            <i className="icon icon-people"></i>
+          </div>
+          <p className="empty-title h5">You don't have any API keys yet</p>
+          <div className="empty-subtitle">You'll need an API key to access your buckets. Create one using the button below</div>
+          <div className="empty-action">
+            <button className="btn btn-primary" onClick={toggleModal}>Create an API key</button>
+          </div>
+        </div>
+        : <table className="table">
           <thead>
             <tr>
               <th>Name</th>
@@ -81,9 +92,10 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
                   </button>
                 </td>
               </tr>
-            ))}  
+            ))}
           </tbody>
         </table>
+      }
     </AppLayout >
   )
 };

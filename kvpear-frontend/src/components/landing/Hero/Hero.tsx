@@ -12,7 +12,7 @@ export default function Hero() {
         <div className={ccn('column col-sm-12 col-md-12 col-5 flex-col', styles.hero_text)}>
           <div>
             <h1>Key-Value storage, made simple.</h1>
-            <p>Unlock the power of Key-Value Storage. Manage your data effortlessly with a user-friendly interface and a flexible pay-per-request model.</p>
+            <p>Introducing an intuitive storage API for rapid prototyping, with a flexible pay-per-request model.</p>
             <div className={styles.ctas}>
               <LinkButton href="/auth/signup" className="btn btn-primary btn-lg">Get Started</LinkButton>
               <LinkButton href="/docs" className="btn btn-link">

@@ -4,6 +4,7 @@ import TopBar from "@/components/TopBar/TopBar";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Toaster } from "react-hot-toast";
+import { ccn } from "@/styles/styleUtils";
 
 export default function AppLayout({ children }: PropsWithChildren<{}>) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -35,7 +36,7 @@ export default function AppLayout({ children }: PropsWithChildren<{}>) {
       />
       <div className={`${styles.app_layout} container`}>
         <div className="columns">
-          <div className={`${styles.sidebar} column col-3 ${sidebarOpen && styles.open}`}>
+          <div className={ccn(styles.sidebar, 'column col-2', { [styles.open]: sidebarOpen })}>
             <button className="btn btn-link btn-lg" onClick={() => setSidebarOpen(false)}>
               <i className="icon icon-cross"></i>
             </button>
@@ -59,7 +60,7 @@ export default function AppLayout({ children }: PropsWithChildren<{}>) {
               </li>
             </ul>
           </div>
-          <div className={`${styles.main_content} column col-9`}>
+          <div className={`${styles.main_content} column col-10`}>
             {children}
           </div>
         </div>
