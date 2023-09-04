@@ -10,10 +10,11 @@ export class BillingService {
   async incrementUsage(userId: string) {
     const firstDayOfMonth = new Date();
     firstDayOfMonth.setDate(1);
+    firstDayOfMonth.setHours(0, 0, 0, 0);
     // find latest billing record for user
     const record = await this.billingRecordModel.findOneAndUpdate(
       { userId, periodStart: { $gte: firstDayOfMonth } },
-      { $inc: { requests: 1 } },
+      { $set: { userId, periodStart: firstDayOfMonth }, $inc: { requests: 1 } },
       { new: true, upsert: true }
     ).exec();
     return record;
