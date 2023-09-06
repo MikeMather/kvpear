@@ -35,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
         await newUser.save();
         // create a new token
-        const sealToken = await generateToken(newUser._id);
+        const sealToken = await generateToken({ userId: newUser._id });
         const sendResult = await sendEmailMessage({
           to: email,
           subject: 'Instant Sign Up to KV Pear',
