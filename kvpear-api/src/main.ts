@@ -37,7 +37,7 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
     methods: '*',
-    allowedHeaders: 'Content-Type, api-key, origin',
+    allowedHeaders: 'Content-Type, x-api-key, origin',
   });
   await app.listen(8080, '0.0.0.0');
 }
