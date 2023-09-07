@@ -38,6 +38,9 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
           <li className="nav-item">
             <Link href="/auth/signup">Sign up</Link>
           </li>
+          <li className="nav-item">
+            <Link href="/contact">Contact</Link>
+          </li>
         </ul>
       </div>
       <main className={styles.main_layout_content}>

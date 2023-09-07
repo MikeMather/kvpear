@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { LinkButton } from '@/components/common/LinkButton';
 import { PropsWithChildren } from 'react';
+import { ccn } from '@/styles/styleUtils';
 
 type Props = {
   title: string;
@@ -35,7 +36,7 @@ export default function LoginSignupForm({ title, subtitle, children }: PropsWith
     return (
       <Layout>
         <div className={styles.login_container}>
-          <div className="hero" style={{ paddingTop: 0, paddingBottom: '40px' }}>
+          <div className={ccn("hero", styles.hero_container)}>
             <div className="hero-body text-center">
               <div className={styles.success_icons}>
                 <i className="icon icon-mail text-success icon-4x"></i>
@@ -54,7 +55,7 @@ export default function LoginSignupForm({ title, subtitle, children }: PropsWith
   return (
     <Layout>
       <div className={styles.login_container}>
-        <div className="hero" style={{ paddingTop: 0, paddingBottom: '40px' }}>
+        <div className={ccn("hero", styles.hero_container)}>
           <div className="hero-body text-center">
             <i className="icon icon-mail icon-4x text-primary"></i>
             <h1>{title}</h1>

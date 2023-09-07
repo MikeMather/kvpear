@@ -266,7 +266,7 @@ export default function BucketPage({ bucket, keys }: any) {
                 />
               </div>
             </div>
-            <div className={ccn("column col-7 hide-xs flex-center", styles.id_copy)}>
+            <div className={ccn("column col-6 hide-xs flex-center", styles.id_copy)}>
             </div>
             <div className="column col-3 col-sm-6 text-right">
               <button className="btn btn-link tooltip mr-2" data-tooltip="Refresh" onClick={softRefreh}>
