@@ -18,6 +18,9 @@ const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
     if (isOk) {
       setUser(data);
       setIsLoading(false);
+    } else {
+      setUser(null);
+      setIsLoading(false);
     }
   }
 
