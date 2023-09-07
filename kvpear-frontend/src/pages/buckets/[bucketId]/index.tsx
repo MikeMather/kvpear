@@ -266,64 +266,66 @@ export default function BucketPage({ bucket, keys }: any) {
                 />
               </div>
             </div>
-            <div className={ccn("column col-7 col-sm-3 flex-center", styles.id_copy)}>
+            <div className={ccn("column col-7 hide-xs flex-center", styles.id_copy)}>
             </div>
-            <div className="column col-2 text-right">
+            <div className="column col-3 col-sm-6 text-right">
               <button className="btn btn-link tooltip mr-2" data-tooltip="Refresh" onClick={softRefreh}>
                 <i className="icon icon-refresh"></i>
               </button>
               <button onClick={toggleModal} className="btn btn-primary ml-2">+ Add Key</button>
             </div>
           </div>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Key</th>
-                <th className="text-center">Value</th>
-                <th className="text-right">Created</th>
-                <th className="text-right">Last updated</th>
-                <th className="text-right"></th> {/* Actions */}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredKeys.map((key: KeyValueItem) => (
-                <tr key={key._id}>
-                  <td>
-                    {key.key}
-                    <button
-                      className="btn btn-link btn-sm text-dark tooltip"
-                      onClick={() => setExpandedKey(key)}
-                      style={{ opacity: '0.8' }}
-                      data-tooltip="Open editor"
-                    >
-                      <i className="icon icon-edit"></i>
-                    </button>
-                  </td>
-                  <td className="text-center">
-                    <div className={ccn(styles.value_field, { 'input-group': key.hasChanged })}>
-                      <input onChange={e => onChangeKey(e, key._id)} type="text" className="form-input" value={key.value} />
-                      {key.hasChanged &&
-                        <button onClick={() => onSaveKey(key._id)} className="btn btn-primary input-group-btn">
-                          <i className="icon icon-check"></i>
-                        </button>
-                      }
-                    </div>
-                  </td>
-                  <td className="text-right">{simpleTimestamp(key.createdAt)}</td>
-                  <td className="text-right">{simpleTimestamp(key.updatedAt)}</td>
-                  <td className="text-right">
-                    <button 
-                      onClick={() => onDeleteKey(key._id)} 
-                      className="btn btn-action btn-link text-error tooltip"
-                      data-tooltip="Delete key"
-                    >
-                      <i className="icon icon-delete" style={{ opacity: '0.9', fontSize: '14px' }}></i>
-                    </button>
-                  </td>
+          <div style={{ overflowX: 'auto' }}>
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th className="text-center">Value</th>
+                  <th className="text-right">Created</th>
+                  <th className="text-right">Last updated</th>
+                  <th className="text-right"></th> {/* Actions */}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredKeys.map((key: KeyValueItem) => (
+                  <tr key={key._id}>
+                    <td>
+                      {key.key}
+                      <button
+                        className="btn btn-link btn-sm text-dark tooltip"
+                        onClick={() => setExpandedKey(key)}
+                        style={{ opacity: '0.8' }}
+                        data-tooltip="Open editor"
+                      >
+                        <i className="icon icon-edit"></i>
+                      </button>
+                    </td>
+                    <td className="text-center">
+                      <div className={ccn(styles.value_field, { 'input-group': key.hasChanged })}>
+                        <input onChange={e => onChangeKey(e, key._id)} type="text" className="form-input" value={key.value} />
+                        {key.hasChanged &&
+                          <button onClick={() => onSaveKey(key._id)} className="btn btn-primary input-group-btn">
+                            <i className="icon icon-check"></i>
+                          </button>
+                        }
+                      </div>
+                    </td>
+                    <td className="text-right">{simpleTimestamp(key.createdAt)}</td>
+                    <td className="text-right">{simpleTimestamp(key.updatedAt)}</td>
+                    <td className="text-right">
+                      <button 
+                        onClick={() => onDeleteKey(key._id)} 
+                        className="btn btn-action btn-link text-error tooltip"
+                        data-tooltip="Delete key"
+                      >
+                        <i className="icon icon-delete" style={{ opacity: '0.9', fontSize: '14px' }}></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
       </div>
     </AppLayout>
   )
