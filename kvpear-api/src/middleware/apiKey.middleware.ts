@@ -30,6 +30,9 @@ export class ApiKeyMiddleware implements NestMiddleware {
     if (!apiKeyInfo) {
       res.statusCode = 401;
       return res.end(JSON.stringify({ message: 'Invalid API key' }))
+    } else if (!apiKeyInfo?.user.apiAccessEnabled) {
+      res.statusCode = 401;
+      return res.end(JSON.stringify({ message: 'API access revoked. Please contact us.'}))
     }
 
     if (!!apiKeyInfo.lockedDomains.length) {

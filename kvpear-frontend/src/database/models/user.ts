@@ -2,6 +2,8 @@ import { Document, Model, Schema, model, models } from 'mongoose';
 
 export interface UserType {
   email: string;
+  apiAccessEnabled: string;
+  customerId: string;
 }
 
 const UserSchema = new Schema({
@@ -10,6 +12,14 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
+  apiAccessEnabled: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+  customerId: {
+    type: String
+  }
 }, { timestamps: true });
 
 const User: Model<UserDocument> = models.User || model('User', UserSchema);

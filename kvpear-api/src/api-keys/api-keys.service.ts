@@ -10,6 +10,6 @@ export class ApiKeysService {
 
   async getApiKeyInfo(apiKey: string): Promise<ApiKey> {
     const keyHash = crypto.createHash('sha256').update(apiKey).digest('hex');
-    return this.apiKeyModel.findOne({ key: keyHash }).exec();
+    return this.apiKeyModel.findOne({ key: keyHash }).populate('user').exec();
   }
 }

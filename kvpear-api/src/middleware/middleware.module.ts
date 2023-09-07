@@ -4,6 +4,7 @@ import { ApiKeysModule } from 'src/api-keys/api-keys.module';
 import { CacheInterceptor } from './cache.interceptor';
 import { CacheModule } from '@nestjs/cache-manager';
 import { BillingModule } from 'src/billing/billing.module';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   controllers: [],

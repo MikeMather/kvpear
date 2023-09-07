@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { ApiPermissions } from 'src/types/permissions';
+import { User } from 'src/users/schema/users.schema';
+
 
 @Schema({
   timestamps: true,
@@ -20,6 +22,20 @@ export class ApiKey extends mongoose.Document {
 
   @Prop()
   bucketIds: string[];
+
+  user?: User;
 }
 
 export const ApiKeySchema = SchemaFactory.createForClass(ApiKey);
+
+ApiKeySchema.index({ key: 1 });
+
+ApiKeySchema.virtual('user', {
+  ref: 'User',
+  localField: 'userId',
+  foreignField: '_id',
+  justOne: true
+})
+
+ApiKeySchema.set('toObject', { virtuals: true });
+ApiKeySchema.set('toJSON', { virtuals: true });

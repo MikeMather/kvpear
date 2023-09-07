@@ -10,6 +10,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BillingModule } from './billing/billing.module';
 import { UsageMiddleware } from './middleware/usage.middleware';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { UsageMiddleware } from './middleware/usage.middleware';
       ttl: 60,
       limit: 10,
     }),
-    BillingModule
+    BillingModule,
+    UsersModule
   ],
   controllers: [],
   providers: [{

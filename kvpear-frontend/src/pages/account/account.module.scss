@@ -1,0 +1,23 @@
+@import '../../styles/variables';
+
+.account_section {
+  width: 100%;
+  border-left: 2px solid $gray-color;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+
+  h4 {
+    margin-bottom: 5px;
+  }
+
+  span {
+    font-size: 14px;
+  }
+
+  form {
+    margin-top: 10px;
+  }
+}

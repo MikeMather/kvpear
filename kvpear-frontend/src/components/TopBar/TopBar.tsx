@@ -46,7 +46,7 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
                 label="Account"
                 icon="people"
                 items={[
-                  { label: 'Profile', action: () => router.push('/buckets') },
+                  { label: 'Settings', action: () => router.push('/account') },
                   { label: 'Logout', action: logout },
                 ]}
               />

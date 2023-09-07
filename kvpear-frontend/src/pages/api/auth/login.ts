@@ -1,8 +1,7 @@
-import { generateToken, getCookieString, ironSessionOptions } from "@/auth/session"
+import { setAuthCookie } from "@/auth/session"
 import User from "@/database/models/user";
 import { unsealData } from "iron-session";
 import { NextApiRequest, NextApiResponse } from "next";
-import { setCookie } from 'cookies-next';
 import { getDb } from "@/database/database";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -25,9 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
   console.log('Setting cookie header');
-  const sessionData = JSON.stringify(user.toObject());
-  setCookie('auth', await generateToken(sessionData), {
-    req, res, maxAge: ironSessionOptions.cookieOptions.maxAge
-  })
+  await setAuthCookie(req, res, JSON.stringify(user.toObject()));
   res.redirect('/buckets');
 };

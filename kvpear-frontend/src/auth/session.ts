@@ -1,4 +1,5 @@
 import { UserDocument, UserType } from "@/database/models/user";
+import { setCookie } from "cookies-next";
 import { getIronSession, sealData, unsealData } from "iron-session";
 import { GetServerSidePropsContext, NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { NextRequest } from "next/server";
@@ -43,6 +44,12 @@ export const generateToken = async (content: any): Promise<string> => {
       ttl: 30 * 24 * 60 * 60,
     }
   );
+}
+
+export const setAuthCookie = async (req: any, res: any, sessionData: any) => {
+  setCookie('auth', await generateToken(sessionData), {
+    req, res, maxAge: ironSessionOptions.cookieOptions.maxAge
+  })
 }
 
 export const protectedApiRoute = (handler: any) => {
