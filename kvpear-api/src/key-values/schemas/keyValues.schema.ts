@@ -20,4 +20,4 @@ export class KeyValue extends mongoose.Document {
 
 export const KeyValueSchema = SchemaFactory.createForClass(KeyValue);
 
-KeyValueSchema.index({ key: 1 });
+KeyValueSchema.index({ key: 1, userId: 1, bucketId: 1 }, { unique: true });

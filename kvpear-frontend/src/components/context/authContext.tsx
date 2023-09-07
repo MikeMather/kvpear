@@ -8,13 +8,16 @@ export const authContext = createContext<{
 }>({ user: null, isLoading: true });
 
 const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
-  const { get, isLoading, error } = useApi();
+  const { get, error } = useApi();
   const [user, setUser] = useState<UserType | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getUser = async () => {
+    setIsLoading(true);
     const { data, isOk } = await get('/api/auth/me');
     if (isOk) {
       setUser(data);
+      setIsLoading(false);
     }
   }
 

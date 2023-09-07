@@ -52,11 +52,11 @@ export default function AppLayout({ children }: PropsWithChildren<{}>) {
               <li className={`nav-item ${isActiveRoute('api-keys')}`}>
                 <Link href="/api-keys">API Keys</Link>
               </li>
-              <li className={`nav-item ${isActiveRoute('docs')}`}>
-               <Link href="/docs">Documentation</Link>
-              </li>
               <li className="nav-item">
-                <Link href="#">Usage</Link>
+                <Link href="/usage">Usage</Link>
+              </li>
+              <li className={`nav-item ${isActiveRoute('docs')}`}>
+               <Link href="/docs">Docs</Link>
               </li>
             </ul>
           </div>

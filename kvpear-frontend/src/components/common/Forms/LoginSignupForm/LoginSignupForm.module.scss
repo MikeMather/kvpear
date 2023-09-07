@@ -20,8 +20,8 @@
 
 .login_container {
   width: 100%;
-  height: calc(100vh - $topbar-height);
-  max-height: calc(100vh - $topbar-height);
+  height: calc(90vh - $topbar-height);
+  max-height: calc(90vh - $topbar-height);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,6 +43,8 @@
 
 .login_form {
   min-width: 300px;
+  width: 100%;
+  max-width: 400px;
 
   input {
     margin-bottom: 10px;

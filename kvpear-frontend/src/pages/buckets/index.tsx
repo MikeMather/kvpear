@@ -11,6 +11,7 @@ import { simpleTimestamp } from "@/utils/datetime";
 import { useModal } from "@/components/common/Modal/Modal";
 import NewBucketForm from "@/components/common/Forms/NewBucketForm/NewBucketForm";
 import { useRouter } from "next/router";
+import Empty from "@/components/common/Empty/Empty";
 
 export const getServerSideProps = protectedSsrRoute(async (ctx: GetServerSideProps, session: UserDocument) => {
   await getDb();
@@ -60,17 +61,13 @@ export default function Buckets({ buckets }: { buckets: BucketDocument[] }) {
       <div className="divider"></div>
       <div className={styles.buckets_container}>
         {buckets.length === 0
-          ? <div className="empty">
-            <div className="empty-icon">
-              <i className="icon icon-people"></i>
-            </div>
-            <p className="empty-title h5">You don't have any buckets yet</p>
-            <div className="empty-subtitle">Create a new bucket using the button below, or view the <Link href="/docs">documentation</Link> to see how to create buckets programmatically.
-            </div>
-            <div className="empty-action">
-              <button className="btn btn-primary" onClick={toggleModal}>Create a bucket</button>
-            </div>
-          </div>
+          ? <Empty
+            title="You don't have any buckets yet"
+            subtitle={<>Create a new bucket using the button below, or view the <Link href="/docs">documentation</Link> to see how to create buckets programmatically.</>}
+            iconClass="gg-folder gg-2x"
+            buttonText="Create a bucket"
+            onButtonClick={toggleModal}
+          />
           : <table className="table table-striped">
             <thead>
               <tr>

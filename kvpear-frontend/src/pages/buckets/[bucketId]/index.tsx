@@ -15,6 +15,7 @@ import EditOrCreateKeyForm from "@/components/common/Forms/EditOrCreateKeyForm/E
 import { useRouter } from "next/router";
 import SecretField from "@/components/common/SecretField/SecretField";
 import Link from "next/link";
+import useSoftRefresh from "@/utils/hooks/useSoftRefresh";
 
 type KeyValueItem = KeyValueType & {
   _id: string;
@@ -54,6 +55,7 @@ export default function BucketPage({ bucket, keys }: any) {
   const [bucketEditError, setBucketEditError] = useState<string | null>(null);
   const [searchVal, setSearchVal] = useState<string>('');
   const router = useRouter();
+  const softRefreh = useSoftRefresh();
 
   useEffect(() => {
     setFilteredKeys(keys.map((key: KeyValueDocument) => ({
@@ -210,7 +212,11 @@ export default function BucketPage({ bucket, keys }: any) {
             {!editingBucket
               ? <div className={styles.page_title}>
                 <h1>{bucketName}</h1>
-                <button className="btn btn-link" onClick={() => setEditingBucket(true)}>
+                <button 
+                  className="btn btn-link tooltip" 
+                  onClick={() => setEditingBucket(true)}
+                  data-tooltip="Edit bucket name"
+                >
                   <i className="icon icon-edit"></i>
                 </button>
               </div>
@@ -232,7 +238,9 @@ export default function BucketPage({ bucket, keys }: any) {
                     }}
                   >Cancel</button>
                 </div>
-                <span className="form-input-hint text-error">{bucketEditError}</span>
+                <span className="form-input-hint text-error">{
+                  bucketEditError || 'Warning: Changing this bucket name could break any applications currently using it.'
+                }</span>
               </div>
             }
             <div>
@@ -261,7 +269,10 @@ export default function BucketPage({ bucket, keys }: any) {
             <div className={ccn("column col-7 col-sm-3 flex-center", styles.id_copy)}>
             </div>
             <div className="column col-2 text-right">
-              <button onClick={toggleModal} className="btn btn-primary">+ Add Key</button>
+              <button className="btn btn-link tooltip mr-2" data-tooltip="Refresh" onClick={softRefreh}>
+                <i className="icon icon-refresh"></i>
+              </button>
+              <button onClick={toggleModal} className="btn btn-primary ml-2">+ Add Key</button>
             </div>
           </div>
           <table className="table table-striped">
@@ -280,9 +291,10 @@ export default function BucketPage({ bucket, keys }: any) {
                   <td>
                     {key.key}
                     <button
-                      className="btn btn-link btn-sm text-dark"
+                      className="btn btn-link btn-sm text-dark tooltip"
                       onClick={() => setExpandedKey(key)}
                       style={{ opacity: '0.8' }}
+                      data-tooltip="Open editor"
                     >
                       <i className="icon icon-edit"></i>
                     </button>
@@ -300,7 +312,11 @@ export default function BucketPage({ bucket, keys }: any) {
                   <td className="text-right">{simpleTimestamp(key.createdAt)}</td>
                   <td className="text-right">{simpleTimestamp(key.updatedAt)}</td>
                   <td className="text-right">
-                    <button onClick={() => onDeleteKey(key._id)} className="btn btn-action btn-link text-error">
+                    <button 
+                      onClick={() => onDeleteKey(key._id)} 
+                      className="btn btn-action btn-link text-error tooltip"
+                      data-tooltip="Delete key"
+                    >
                       <i className="icon icon-delete" style={{ opacity: '0.9', fontSize: '14px' }}></i>
                     </button>
                   </td>

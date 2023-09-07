@@ -48,7 +48,7 @@ export default function Contact() {
 
   return (
     <Layout>
-      <div className="container grid-xs" style={{ height: '80vh' }}>
+      <div className="container grid-xs flex-col flex-center" style={{ height: '80vh' }}>
         <div className="hero" style={{ paddingTop: 0, paddingBottom: '20px' }}>
           <div className="hero-body text-center">
             <i className="icon icon-mail icon-4x text-primary"></i>
@@ -64,7 +64,7 @@ export default function Contact() {
           </div>
           <div className={ccn('form-group', { 'has-error': !!errors?.message})}>
             <label className="form-label label-lg" htmlFor="email">Message</label>
-            <textarea className="form-input input-lg" {...register('message', { required: true })} />
+            <textarea rows={6} className="form-input input-lg" {...register('message', { required: true })} />
             {errors?.message && <p className="form-input-hint">{errors.message.message}</p>}
           </div>
           {apiError && <p className="text-error">{apiError}</p>}

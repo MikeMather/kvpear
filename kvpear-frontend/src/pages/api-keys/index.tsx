@@ -13,6 +13,7 @@ import { useModal } from "@/components/common/Modal/Modal";
 import NewApiKeyForm from "@/components/common/Forms/NewApiKeyForm/NewApiKeyForm";
 import SecretField from "@/components/common/SecretField/SecretField";
 import useSoftRefresh from "@/utils/hooks/useSoftRefresh";
+import Empty from "@/components/common/Empty/Empty";
 
 export const getServerSideProps = protectedSsrRoute(async (ctx: GetServerSideProps, session: UserDocument) => {
   await getDb();
@@ -55,16 +56,13 @@ export default function ApiKeys({ apiKeys }: { apiKeys: ApiKeyDocument[] }) {
         <button className="btn btn-primary" onClick={toggleModal}>New API Key</button>
       </div>
       {apiKeys.length === 0
-        ? <div className="empty">
-          <div className="empty-icon">
-            <i className="icon icon-people"></i>
-          </div>
-          <p className="empty-title h5">You don't have any API keys yet</p>
-          <div className="empty-subtitle">You'll need an API key to access your buckets. Create one using the button below</div>
-          <div className="empty-action">
-            <button className="btn btn-primary" onClick={toggleModal}>Create an API key</button>
-          </div>
-        </div>
+        ? <Empty
+          title="You don't have any API keys yet"
+          subtitle="You'll need an API key to access your buckets. Create one using the button below"
+          iconClass="gg-lock gg-2x"
+          buttonText="Create an API key"
+          onButtonClick={toggleModal}
+        />
         : <table className="table">
           <thead>
             <tr>

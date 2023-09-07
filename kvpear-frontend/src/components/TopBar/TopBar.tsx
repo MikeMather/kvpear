@@ -28,7 +28,7 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
               <img src="/logos/cover.png" alt="logo" width="180" height="70" />
             </Link>
           </div>
-          {!user?.email && <div className={styles.nav_items}>
+          {!isLoading && !user?.email && <div className={styles.nav_items}>
             <LinkButton href="/docs" className="btn btn-link btn-lg">Documentation</LinkButton>
             <LinkButton href="/guides" className="btn btn-link btn-lg">Guides</LinkButton>
             <LinkButton href="/guides" className="btn btn-link btn-lg">Pricing</LinkButton>
