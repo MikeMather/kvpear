@@ -66,7 +66,7 @@ export default function LoginSignupForm({ title, subtitle, children }: PropsWith
             <label className="form-label label-lg" htmlFor="email">Email</label>
             <input className="form-input input-lg" type="email" {...register('email', { required: true })} />
           </div>
-          <button type="submit" className={`btn btn-primary ${isLoading && 'loading'}`}>Submit</button>
+          <button type="submit" className={`btn btn-primary ${isLoading && 'loading'}`}>Send Magic Link 🪄</button>
         </form>
         <div className={styles.children_container}>{children}</div>
         {router.query.error || error && (

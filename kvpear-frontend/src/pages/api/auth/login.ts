@@ -6,7 +6,6 @@ import { setCookie } from 'cookies-next';
 import { getDb } from "@/database/database";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log('Verifying token')
   const token = req.query?.token;
   if (!token || typeof token !== 'string') {
     const errorMessage = encodeURIComponent("The link you used is invalid or has expired. Please try again");

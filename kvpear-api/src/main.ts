@@ -4,14 +4,22 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import helmet from '@fastify/helmet'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+const corsOptions = {
+  origin: '*',
+  methods: '*',
+  allowedHeaders: 'Content-Type, x-api-key, origin',
+}
+
 async function bootstrap() {
   // 4kb
   const bodyLimit = 4 * 1024;
+  const adapter = new FastifyAdapter({ logger: true, bodyLimit });
+  adapter.enableCors(corsOptions);
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ logger: true, bodyLimit }),
+    adapter,
     {
-      rawBody: true     
+      rawBody: true
     }
   );
 
@@ -33,11 +41,6 @@ async function bootstrap() {
         scriptSrc: ["'self'", "'unsafe-inline'"],
       },
     },
-  });
-  app.enableCors({
-    origin: '*',
-    methods: '*',
-    allowedHeaders: 'Content-Type, x-api-key, origin',
   });
   await app.listen(8080, '0.0.0.0');
 }

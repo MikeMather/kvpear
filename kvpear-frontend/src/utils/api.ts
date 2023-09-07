@@ -13,6 +13,8 @@ type ApiResultType = {
 }
 
 type RequestOptionsType = {
+  textBody?: boolean;
+  headers?: {[key: string]: string};
   successMessage?: string;
   errorMessage?: string;
 }
@@ -40,19 +42,33 @@ export const useApi = (): useApiType => {
       const paramsString = new URLSearchParams(params).toString();
       url = `${url}?${paramsString}`;
     }
+    const headers = options?.headers || {};
     try {
       let res;
       if (method === 'GET') {
-        res = await fetch(url, { method });
+        res = await fetch(url, { method, headers });
       } else {
+        let reqBody: string;
+        if (options?.textBody) {
+          reqBody = body;
+        } else {
+          reqBody = JSON.stringify(body);
+        }
         res = await fetch(url, { 
           method, 
-          body: body && JSON.stringify(body), 
-          headers: { 'Content-Type': 'application/json' } 
+          body: body ? reqBody : undefined, 
+          headers: { 
+            'Content-Type': 'application/json',
+            ...headers
+          }
         });
       }
-
-      data = await res.json();
+      const isTextResponse = res.headers.get('content-type')?.includes('text');
+      if (isTextResponse) {
+        data = await res.text();
+      } else {
+        data = await res.json();
+      }
       isOk = res.ok;
       if (!isOk) {
         setError(data?.message || 'Something went wrong');
