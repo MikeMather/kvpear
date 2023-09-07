@@ -10,11 +10,16 @@ export default protectedApiRoute(async function handler(req: NextApiRequest, res
     res.status(405).json({ message: "Method not allowed" });
   }
   const stripeSecret = process.env.STRIPE_SECRET_KEY as string;
+  const priceId = process.env.SUBSCRIPTION_PRICE_ID as string;
   const stripeApi =  new Stripe(stripeSecret, {
     apiVersion: "2023-08-16",
   });
   const customer = await stripeApi.customers.create({
     email: session.email,
+  });
+  const subscription = await stripeApi.subscriptions.create({
+    customer: customer.id,
+    items: [{ price: priceId }]
   });
 
   const intent = await stripeApi.setupIntents.create({
@@ -24,7 +29,7 @@ export default protectedApiRoute(async function handler(req: NextApiRequest, res
 
   await getDb();
   const newUser = await User.findOneAndUpdate({ _id: session._id }, 
-    { customerId: customer.id },
+    { customerId: customer.id, subscriptionId: subscription.id },
     { new: true }
   ).exec();
   if (!newUser) {

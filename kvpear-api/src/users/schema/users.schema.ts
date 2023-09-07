@@ -13,6 +13,9 @@ export class User extends mongoose.Document {
 
   @Prop()
   customerId: string;
+
+  @Prop()
+  subscriptionId: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

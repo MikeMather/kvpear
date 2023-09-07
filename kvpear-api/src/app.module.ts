@@ -11,6 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BillingModule } from './billing/billing.module';
 import { UsageMiddleware } from './middleware/usage.middleware';
 import { UsersModule } from './users/users.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { UsersModule } from './users/users.module';
       limit: 10,
     }),
     BillingModule,
-    UsersModule
+    UsersModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [{

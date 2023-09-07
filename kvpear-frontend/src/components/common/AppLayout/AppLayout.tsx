@@ -3,7 +3,7 @@ import styles from './appLayout.module.scss';
 import TopBar from "@/components/TopBar/TopBar";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { ccn } from "@/styles/styleUtils";
 
 export default function AppLayout({ children }: PropsWithChildren<{}>) {
@@ -14,6 +14,19 @@ export default function AppLayout({ children }: PropsWithChildren<{}>) {
   const isActiveRoute = (route: string) => {
     return activeRoute === route ? 'active' : '';
   }
+
+  useEffect(() => {
+    toast.dismiss();
+    if (router.query?.message) {
+      toast.success(router.query.message as string, {
+        id: 'success'
+      });
+    } else if (router.query?.error) {
+      toast.error(router.query.error as string, {
+        id: 'error'
+      });
+    }
+  }, [router.query])
 
   useEffect(() => {
     setSidebarOpen(false);

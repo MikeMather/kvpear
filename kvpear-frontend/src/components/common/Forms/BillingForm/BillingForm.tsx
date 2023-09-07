@@ -38,11 +38,12 @@ export default function BillingForm() {
     const { isOk, data } = await get('/api/billing/setup');
     if (isOk) {
       const { clientSecret } = data;
+      const successMessage = encodeURIComponent('Billing details updated successfully');
       const {error} = await stripe.confirmSetup({
         elements,
         clientSecret,
         confirmParams: {
-          return_url: 'http://localhost:3000/account',
+          return_url: `http://localhost:3000/account?message=${successMessage}`
         },
       });
       if (error) {

@@ -4,6 +4,7 @@ export interface UserType {
   email: string;
   apiAccessEnabled: string;
   customerId: string;
+  subscriptionId: string;
 }
 
 const UserSchema = new Schema({
@@ -18,6 +19,9 @@ const UserSchema = new Schema({
     default: true,
   },
   customerId: {
+    type: String
+  },
+  subscriptionId: {
     type: String
   }
 }, { timestamps: true });

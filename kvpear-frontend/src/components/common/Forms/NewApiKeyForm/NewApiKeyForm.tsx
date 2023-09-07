@@ -58,8 +58,8 @@ export default function NewApiKeyForm({ onComplete }: { onComplete: () => void }
       </div>
       {error && <p className="form-input-hint text-error">{error}</p>}
       <div className="form-group" style={{ marginTop: '20px' }}>
-        <button className="btn btn-primary float-right btn-lg">
-          {isLoading ? <i className="loading"></i> : 'Create'}
+        <button className={ccn("btn btn-primary float-right btn-lg", { 'loading': isLoading })} type="submit">
+          Create
         </button>
       </div>
     </form>
