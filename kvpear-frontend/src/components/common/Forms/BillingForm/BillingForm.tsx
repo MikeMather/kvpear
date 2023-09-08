@@ -35,6 +35,7 @@ export default function BillingForm() {
       handleError(error);
       return;
     }
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL as string;
     const { isOk, data } = await get('/api/billing/setup');
     if (isOk) {
       const { clientSecret } = data;
@@ -43,7 +44,7 @@ export default function BillingForm() {
         elements,
         clientSecret,
         confirmParams: {
-          return_url: `http://localhost:3000/account?message=${successMessage}`
+          return_url: `${baseUrl}/account?message=${successMessage}`
         },
       });
       if (error) {

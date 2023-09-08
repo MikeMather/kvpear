@@ -9,6 +9,7 @@ import styles from './usage.module.scss';
 import Empty from "@/components/common/Empty/Empty";
 import { useRouter } from "next/router";
 import { simpleTimestamp } from "@/utils/datetime";
+import { LinkButton } from "@/components/common/LinkButton";
 
 export const getServerSideProps = protectedSsrRoute(async (ctx: GetServerSideProps, session: UserDocument) => {
   await getDb();
@@ -26,8 +27,9 @@ export default function Usage({ billingRecords }: { billingRecords: BillingRecor
 
   return (
     <AppLayout>
-      <div className="page_header">
+      <div className="page-header">
         <h1>Usage</h1>
+        <LinkButton href="/api/billing/customer-portal?returnto=usage" className="btn btn-primary btn-lg">View Invoices</LinkButton>
       </div>
       <div className={styles.usage_container}>
         {billingRecords.length === 0
@@ -43,7 +45,6 @@ export default function Usage({ billingRecords }: { billingRecords: BillingRecor
                 <tr>
                   <th>Period</th>
                   <th>Requests</th>
-                  <th>Cost</th>
                 </tr>
               </thead>
               <tbody>
@@ -51,7 +52,6 @@ export default function Usage({ billingRecords }: { billingRecords: BillingRecor
                   <tr key={record._id}>
                     <td>{simpleTimestamp(record.periodStart)}</td>
                     <td>{record.requests}</td>
-                    <td>$0.00</td>
                   </tr>
                 ))}
               </tbody>
