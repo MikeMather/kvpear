@@ -2,6 +2,9 @@ import { getServerSession } from '@/auth/session';
 import Layout from './layout'
 import Hero from '@/components/landing/Hero/Hero';
 import UseCases from '@/components/landing/UseCases/UseCases';
+import Section from '@/components/landing/Section/Section';
+import Solutions from '@/components/landing/Solutions/Solutions';
+import Demos from '@/components/landing/Demos/Demos';
 
 export const getServerSideProps = async (ctx: any) => {
   const { req } = ctx;
@@ -23,8 +26,18 @@ export default function Home() {
 
   return (
     <Layout>
-      <Hero />
-      <UseCases />
+      <Section>
+        <Hero />
+      </Section>
+      <Section striped>
+        <UseCases />
+      </Section>
+      <Section>
+        <Solutions />
+      </Section>
+      <Section>
+        <Demos />
+      </Section>
     </Layout>
   )
 }

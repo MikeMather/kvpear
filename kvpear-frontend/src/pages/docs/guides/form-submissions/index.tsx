@@ -1,11 +1,11 @@
+import DocsLayout from '@/components/common/DocsLayout/DocsLayout';
 import GuideContent from './form-submissions.mdx';
-import Layout from '@/pages/layout';
  
 export default function Docs() {
 
   return (
-    <Layout>
+    <DocsLayout>
       <GuideContent />
-    </Layout>
+    </DocsLayout>
   )
 }

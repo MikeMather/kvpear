@@ -58,9 +58,10 @@ export default function EditOrCreateKeyModal({ editingKey=defaultKey, onClose, b
   }
 
   const createKey = async (payloadData: any) => {
+    const isJson = payloadData.value.startsWith('{') && payloadData.value.endsWith('}');
     const payload = {
       ...payloadData,
-      value: stripWhiteSpace(payloadData.value),
+      value: isJson ? stripWhiteSpace(payloadData.value) : payloadData.value,
     }
     const { isOk, data } = await post('/api/keys', payload, {
       successMessage: 'New key added' 

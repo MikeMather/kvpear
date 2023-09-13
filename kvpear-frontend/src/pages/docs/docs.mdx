@@ -2,15 +2,18 @@ import Highlight from 'react-highlight'
 import { Spacer } from '../../components/common/Mdx/Mdx';
 import EndpointLabel from '../../components/docs/EndpointLabel/EndpointLabel';
 
+# Overview
+KV Pear is a simple key-value storage with a REST interface. Key-value pairs are grouped together in "buckets" which allow logical separation of data. The value in a key-value pair can be any string, integer or boolean value and will be stored as such. The simplicity of the API makes it a powerful tool with many potentially use-cases. See our [guides](/docs/guides) section for more.
+
+
 <h1 id="buckets">Buckets</h1>
 <Spacer height={2} />
 
 <h2 id="create-bucket">Create your bucket</h2>
 <EndpointLabel method="POST" path="/v1/buckets" />
-Buckets are the top level of the KV Pear hierarchy. They are used to group related data together. Buckets are created using the `POST` method on the `/buckets` endpoint. The name of the bucket is passed as the request body. The bucket name must be unique and can only contain letters, numbers, dashes and underscores. The bucket name is case sensitive.
-Return value is the bucket ID.
+Buckets are the top level of the KV Pear hierarchy. They are used to group related data together. Buckets are created using the `POST` method on the `/buckets` endpoint. The name of the bucket is passed as the request body. The bucket name must be unique to your account and can only contain letters, numbers, dashes and underscores. The bucket name is case sensitive.
 <Highlight className="bash block">
-  &gt; curl -X POST -d "mybucket" http://localhost:8080/buckets
+  &gt; curl -X POST -d "mybucket" https://kvpear.dev/v1/buckets
 </Highlight>
 <Spacer height={4} />
 <hr />
@@ -20,7 +23,7 @@ Return value is the bucket ID.
 <EndpointLabel method="GET" path="/v1/buckets" />
 You can list all of your buckets using the `GET` method on the `/buckets` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X GET http://localhost:8080/buckets
+  &gt; curl -X GET https://kvpear.dev/v1/buckets
   [&#123; "name": "mybucket", "created": "2023-01-01T00:00:00Z" &#125;]
 </Highlight>
 <Spacer height={4} />
@@ -29,9 +32,9 @@ You can list all of your buckets using the `GET` method on the `/buckets` endpoi
 <Spacer height={1} />
 <h2 id="delete-buckets">Delete a bucket</h2>
 <EndpointLabel method="DELETE" path="/v1/buckets/:bucketName" />
-You can delete a bucket using the `DELETE` method on the `/buckets/:bucketName` endpoint.
+You can delete a bucket using the `DELETE` method on the `/buckets/:bucketName` endpoint. Deleting a bucket cannot be reversed, and will result in all of the associated keys being deleted as well. It is recommended that for any client side applications, API keys do not include the `delete:bucket` scope to avoid accidental deletion.
 <Highlight className="bash block">
-  &gt; curl -X DELETE http://localhost:8080/buckets/mybucket
+  &gt; curl -X DELETE https://kvpear.dev/v1/buckets/mybucket
 </Highlight>
 <Spacer height={8} />
 
@@ -42,11 +45,23 @@ You can delete a bucket using the `DELETE` method on the `/buckets/:bucketName` 
 <EndpointLabel method="POST" path="/v1/kvs/:bucketName/:keyName" />
 Key values are created or updated using the `POST` method on the `/kvs/:bucketName/:keyName` endpoint. The value string is passed in as the request body. 
 If the key exists, the value will be updated. If the key does not exist, it will be created.
-The key value must be unique within the bucket and can only contain letters, numbers, dashes and underscores. The key value is case sensitive.
+The key value must be unique within the bucket and can only contain letters, numbers, dashes and underscores. The key value is case sensitive. The data type of the value will be parsed and stored accordingly. For example if the value sent is "100", it will be stored and returned as an integer.
 Return value is the key value string.
 <Highlight className="bash block">
-  &gt; curl -X POST -d "myvalue" http://localhost:8080/buckets/myBucket/mykey
+  &gt; curl -X POST -d "myvalue" https://kvpear.dev/v1/buckets/myBucket/mykey
   "myvalue"
+</Highlight>
+<Spacer height={4} />
+<hr />
+
+<h2 id="create-kv">Increment/decrement a value</h2>
+<EndpointLabel method="POST" path="/v1/kvs/:bucketName/:keyName" />
+Number values can be incremented/decremented using the same endpoint as the create/update endpoint. To do this, pass in the value with a plus or minus sign before the amount you want to increment by. For example passing '+100' will increment the value by 100, or '-5' will decrement by 5.
+<Highlight className="bash block">
+  &gt; curl -X POST -d "100" https://kvpear.dev/v1/buckets/myWebsite/hits
+  100
+  &gt; curl -X POST -d "+1" https://kvpear.dev/v1/buckets/myWebsite/hits
+  101
 </Highlight>
 <Spacer height={4} />
 <hr />
@@ -54,10 +69,10 @@ Return value is the key value string.
 <Spacer height={1} />
 <h2 id="get-kv">Get a value</h2>
 <EndpointLabel method="GET" path="/v1/kvs/:bucketName/:keyName" />
-You can get a key value using the `GET` method on the `/kvs/:bucketName/:keyName` endpoint.
+You can retrieve a key value using the `GET` method on the `/kvs/:bucketName/:keyName` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X GET http://localhost:8080/buckets/myBucket/mykey
-  "myvalue"
+  &gt; curl -X GET https://kvpear.dev/v1/buckets/myWebsite/hits
+  101
 </Highlight>
 <Spacer height={4} />
 <hr />
@@ -67,13 +82,15 @@ You can get a key value using the `GET` method on the `/kvs/:bucketName/:keyName
 <EndpointLabel method="GET" path="/v1/kvs/:bucketName" />
 You can list all of your key values using the `GET` method on the `/kvs/:bucketName` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X GET http://localhost:8080/buckets/myBucket
+  &gt; curl -X GET https://kvpear.dev/v1/buckets/myBucket
   [&#123; "name": "mykey", "value": "myvalue", "created": "2023-01-01T00:00:00Z" &#125;]
 </Highlight>
 <Spacer height={1} />
 You can provide additional query parameters to filter the results:
 - `prefix`: *string* - only return key values that start with the prefix
 - `regex`: *string* - only return key values that match the regex. The regex string must be URL encoded.
+
+This can provide a powerful interface for other data-storage patterns such as using single-table design to store application data, for example.
 <Spacer height={3} />
 <hr />
 
@@ -82,6 +99,6 @@ You can provide additional query parameters to filter the results:
 <EndpointLabel method="GET" path="/v1/kvs/:bucketName/:keyName" />
 You can delete a key-value pair using the `DELETE` method on the `/v1/kvs/:bucketName/:keyName` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X DELETE http://localhost:8080/buckets/myBucket/myKey
+  &gt; curl -X DELETE https://kvpear.dev/v1/buckets/myBucket/myKey
 </Highlight>
 <Spacer height={4} />

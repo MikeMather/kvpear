@@ -7,17 +7,41 @@ import { Spacer } from '../../../../components/common/Mdx/Mdx';
 
 
 
-### How we do it
+### Why Form Submissions Can Suck
 
-We capture form submissions on our own [contact](/contact) form using KV Pear. We do this by using a simple form event listener in JavaScript.
+Forms are something that can be found on almost every website. Whether you're capturing emails for newsletter signups, offering a way for customers to submit support tickets; or in our case, our [contact form](/contact). Often times a CMS or website builder will offer methods to accept form submissions. But for those of us using frontend-only static-site frameworks such as single-page-applications that don't necessarily have backends, capturing form submissions require some extra complexity. 
+
+When building static sites, we are either required to use external tools to capture form submissions, or build out our own backend to handle the data. In my experience, form builders can be clunky and often don't allow you to fit the brand of your site very easily. Many only offer the ability to embed their forms using HTML snippets rather than providing an API, allowing you to use your own form design. They also often require a monthly subscription for extras like removing branding on the form design.
+
+On the other hand, building out our own backend simply for handling form submissions can also be time-consuming. We would need to take into consideration the platform and frameworks we would need to us, hosting and infrastructure providers, and security of the API. Often times this requires extra costs such as databases and servers for something that we may not need very often. When looking at the cost breakdown of say, a $10 per month database for a contact form that may get submissions, for example, twice a week, we would be paying $1.25 per contact form submission. Once those forms were submitted, we would also have to connect to a database to view the submissions making it difficult for any non-tech people to access the data.
+
+At KV Pear, we've run into this dilemma before and have been frustrated with the options available for doing something as simple as capturing form submissions. So we built an API that allowed us to submit forms the way we wanted to do it, in less than 5 lines of code.
 
 Given our HTML form:
 
-<Highlight className="HTML block">
-</Highlight>
+``` HTML
+<form class="form" id="contact-form">
+  <div class="form-group">
+    <label class="form-label" for="email" />
+    <input class="form-input" name="emai" type="email" placeholder="Your email" />
+  </div>
+  <div class="form-group">
+    <label class="form-label" for="message" />
+    <textarea class="form-input" name="message" placeholder="Your message" rows="6" />
+  </div>
+  <button class="btn btn-lg" type="submit" >Submit</button>
+</form>
+```
+<Spacer height={2} />
 
-<Highlight className="JavaScript block">
+``` JavaScript
 const onSubmit = (e) => (
-  
+  const email = // email;
+  const message = // message;
+  fetch(`https://kvpear.dev/v1/kvs/contact/${email}`,{
+    message
+  }).then(res => {
+    // show success
+  })
 )
-</Highlight>
+```
