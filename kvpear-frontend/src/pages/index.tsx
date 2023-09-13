@@ -5,6 +5,9 @@ import UseCases from '@/components/landing/UseCases/UseCases';
 import Section from '@/components/landing/Section/Section';
 import Solutions from '@/components/landing/Solutions/Solutions';
 import Demos from '@/components/landing/Demos/Demos';
+import Pricing from '@/components/landing/Pricing/Pricing';
+import { LinkButton } from '@/components/common/LinkButton';
+import Cta from '@/components/landing/Cta/Cta';
 
 export const getServerSideProps = async (ctx: any) => {
   const { req } = ctx;
@@ -37,6 +40,12 @@ export default function Home() {
       </Section>
       <Section>
         <Demos />
+      </Section>
+      <Section>
+        <Pricing />
+      </Section>
+      <Section>
+        <Cta />
       </Section>
     </Layout>
   )

@@ -1,0 +1,14 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  max-width: 700px !important;
+  text-align: center;
+
+  a {
+    padding: 10px 20px !important;
+    height: auto !important;
+    width: 200px;
+    border: none;
+    background: linear-gradient(90deg, $primary-color 0%, darken($secondary-color, 30%) 100%) !important;
+  }
+}

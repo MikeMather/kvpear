@@ -1,0 +1,22 @@
+
+
+.columns {
+  margin: 0 0 100px 0;
+  box-sizing: border-box;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.shot {
+  box-shadow: 2px 2px 10px 0px rgb(0 0 0 / 20%);
+}
+
+@media(max-width: 768px) {
+  .columns:last-of-type {
+    flex-wrap: wrap-reverse !important;
+  }
+}

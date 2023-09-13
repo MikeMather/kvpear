@@ -28,6 +28,7 @@ export default function Hero() {
           </div>
         </div>
         <div className={ccn("column col-6 col-md-12 col-sm-12", styles.hero_column)}>
+          <span>SIMPLE AND INTUITIVE API</span>
           <picture className={styles.hero_pic}>
             <source srcSet="/code-shots/example-1-sm.svg" media="(min-width: 601px)" />
             <source srcSet="/code-shots/example-1-xs.svg" media="(max-width: 600px)" />

@@ -61,6 +61,11 @@ hr {
   border-top: 1px solid $gray-color;
 }
 
+.divider-vert {
+  border-left: 1px solid $gray-color;
+  height: 100%;
+}
+
 .breadcrumb {
   font-size: 14px !important;
 }

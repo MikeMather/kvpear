@@ -1,7 +1,12 @@
 @import '../../../styles/variables';
 
 .section {
-  padding: 30px;
+  padding: 90px 50px;
+  box-sizing: border-box;
+
+  > div {
+    max-width: 1200px;
+  }
 }
 
 @media(max-width: $breakpoint-tablet) {

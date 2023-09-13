@@ -38,3 +38,9 @@
 .icon {
   color: $primary-color;
 }
+
+@media(max-width: $breakpoint-tablet) {
+  .columns > div {
+    margin-bottom: 100px;
+  }
+}
