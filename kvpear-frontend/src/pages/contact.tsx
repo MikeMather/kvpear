@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ccn } from "@/styles/styleUtils";
 import { useState } from "react";
 import { LinkButton } from "@/components/common/LinkButton";
+import { NextSeo } from "next-seo";
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -34,6 +35,10 @@ export default function Contact() {
 
   if (isDone && !apiError) {
     return (<Layout>
+      <NextSeo
+        title="Contact Us"
+        description="Send us a message and we'll get back to you as soon as possible."
+      />
       <div className="container grid-xs flex-col flex-center" style={{ height: '80vh' }}>
         <div className="hero" style={{ paddingTop: 0, paddingBottom: '40px' }}>
             <div className="hero-body text-center">
@@ -48,6 +53,10 @@ export default function Contact() {
 
   return (
     <Layout>
+      <NextSeo
+        title="Contact Us"
+        description="Send us a message and we'll get back to you as soon as possible."
+      />
       <div className="container grid-xs flex-col flex-center" style={{ height: '80vh' }}>
         <div className="hero" style={{ paddingTop: 0, paddingBottom: '20px' }}>
           <div className="hero-body text-center">

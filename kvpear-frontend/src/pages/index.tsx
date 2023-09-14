@@ -8,6 +8,7 @@ import Demos from '@/components/landing/Demos/Demos';
 import Pricing from '@/components/landing/Pricing/Pricing';
 import { LinkButton } from '@/components/common/LinkButton';
 import Cta from '@/components/landing/Cta/Cta';
+import { NextSeo } from 'next-seo';
 
 export const getServerSideProps = async (ctx: any) => {
   const { req } = ctx;
@@ -29,6 +30,10 @@ export default function Home() {
 
   return (
     <Layout padded={false}>
+      <NextSeo
+        title="KV Pear"
+        description="Simple, secure, and scalable key-value store for your application data."
+      />
       <Section>
         <Hero />
       </Section>
