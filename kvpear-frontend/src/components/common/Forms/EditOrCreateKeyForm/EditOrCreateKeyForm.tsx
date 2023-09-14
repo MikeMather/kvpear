@@ -57,12 +57,16 @@ export default function EditOrCreateKeyModal({ editingKey=defaultKey, onClose, b
     }
   }
 
-  const createKey = async (payloadData: any) => {
-    const isJson = payloadData.value.startsWith('{') && payloadData.value.endsWith('}');
-    const payload = {
-      ...payloadData,
-      value: isJson ? stripWhiteSpace(payloadData.value) : payloadData.value,
+  const prepareData = (data: any) => {
+    const isJson = data.value.startsWith('{') && data.value.endsWith('}');
+    return {
+      ...data,
+      value: isJson ? stripWhiteSpace(data.value) : data.value,
     }
+  }
+
+  const createKey = async (payloadData: any) => {
+    const payload = prepareData(payloadData);
     const { isOk, data } = await post('/api/keys', payload, {
       successMessage: 'New key added' 
     });
@@ -72,10 +76,7 @@ export default function EditOrCreateKeyModal({ editingKey=defaultKey, onClose, b
   } 
 
   const updateKey = async (payloadData: any) => {
-    const payload = {
-      ...payloadData,
-      value: stripWhiteSpace(payloadData.value),
-    }
+    const payload = prepareData(payloadData);
     const { data, isOk } = await patch(`/api/keys/${editingKey._id}`, payload, {
       successMessage: 'Key updated'
     });
