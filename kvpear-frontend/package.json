@@ -6,7 +6,8 @@
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "node loadProdEnv.js && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
@@ -30,6 +31,7 @@
     "mongoose": "^7.5.0",
     "next": "12.3.0",
     "next-seo": "^6.1.0",
+    "next-sitemap": "^4.2.3",
     "nodemailer": "^6.9.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
