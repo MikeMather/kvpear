@@ -6,7 +6,7 @@ import { ccn } from "@/styles/styleUtils";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function Layout({ children }: PropsWithChildren<{}>) {
+export default function Layout({ children, padded=true }: PropsWithChildren<{ padded?: boolean }>) {
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const router = useRouter();
@@ -43,7 +43,7 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
           </li>
         </ul>
       </div>
-      <main className={styles.main_layout_content}>
+      <main className={ccn(styles.main_layout_content, { [styles.padded]: padded })}>
         {children}
       </main>
       <Footer />

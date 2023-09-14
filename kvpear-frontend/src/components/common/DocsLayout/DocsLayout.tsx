@@ -43,6 +43,9 @@ export default function DocsLayout({ children }: PropsWithChildren<{}>) {
             <div className="column col-3 hide-xs">
               <ul className="nav" style={{ position: 'fixed' }}>
                 <li className="nav-item">
+                  <Link href="#authentication">Authentication</Link>
+                </li>
+                <li className="nav-item">
                   <Link href="#buckets">Buckets</Link>
                   <ul className="nav">
                     <li className="nav-item">
@@ -50,6 +53,9 @@ export default function DocsLayout({ children }: PropsWithChildren<{}>) {
                     </li>
                     <li className="nav-item">
                       <Link href="#list-buckets">List</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link href="#delete-buckets">Delete</Link>
                     </li>
                   </ul>
                 </li>
@@ -63,7 +69,7 @@ export default function DocsLayout({ children }: PropsWithChildren<{}>) {
                       <Link href="#get-kv">Retrieve</Link>
                     </li>
                     <li className="nav-item">
-                      <Link href="#list-kv">List</Link>
+                      <Link href="#list-kv">List/Search</Link>
                     </li>
                     <li className="nav-item">
                       <Link href="#delete-kv">Delete</Link>

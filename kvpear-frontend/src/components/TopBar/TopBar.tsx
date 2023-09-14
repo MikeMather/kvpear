@@ -30,8 +30,7 @@ export default function TopBar({ onMenuOpen }: { onMenuOpen: () => void }) {
           </div>
           {!isLoading && !user?.email && <div className={styles.nav_items}>
             <LinkButton href="/docs" className="btn btn-link btn-lg">Documentation</LinkButton>
-            <LinkButton href="/guides" className="btn btn-link btn-lg">Guides</LinkButton>
-            <LinkButton href="/guides" className="btn btn-link btn-lg">Pricing</LinkButton>
+            {/* <LinkButton href="/guides" className="btn btn-link btn-lg">Guides</LinkButton> */}
             <LinkButton href="/contact" className="btn btn-link btn-lg">Contact</LinkButton>
           </div>}
         </section>

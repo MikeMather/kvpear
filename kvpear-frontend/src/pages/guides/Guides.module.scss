@@ -1,0 +1,21 @@
+
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+
+  > div {
+    flex-basis: 45%;
+    margin-bottom: 2rem;
+  }
+
+  > div:first-of-type {
+    margin-right: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    > div {
+      flex-basis: 100%;
+    }
+  }
+}

@@ -28,7 +28,7 @@ export const getServerSideProps = async (ctx: any) => {
 export default function Home() {
 
   return (
-    <Layout>
+    <Layout padded={false}>
       <Section>
         <Hero />
       </Section>

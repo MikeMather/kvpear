@@ -18,6 +18,22 @@
   width: 100%;
 }
 
+.padded {
+  padding: 50px;
+}
+
+@media screen and (max-width: 768px) {
+  .padded {
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .padded {
+    padding: 10px;
+  }
+}
+
 .mobile_nav {
   display: none;
   width: 100%;
@@ -47,10 +63,4 @@
 
 .open {
   display: block;
-}
-
-@media(max-width: 425px) {
-  .main_layout_content {
-    padding: 0;
-  }
 }

@@ -3,8 +3,19 @@ import { Spacer } from '../../components/common/Mdx/Mdx';
 import EndpointLabel from '../../components/docs/EndpointLabel/EndpointLabel';
 
 # Overview
-KV Pear is a simple key-value storage with a REST interface. Key-value pairs are grouped together in "buckets" which allow logical separation of data. The value in a key-value pair can be any string, integer or boolean value and will be stored as such. The simplicity of the API makes it a powerful tool with many potentially use-cases. See our [guides](/docs/guides) section for more.
+KV Pear is a simple key-value storage with a REST interface. Key-value pairs are grouped together in "buckets" which allow logical separation of data. The value in a key-value pair can be any string, integer or boolean value and will be stored as such. The simplicity of the API makes it a powerful tool with many potentially use-cases.
+<Spacer height={3} />
 
+<h1 id="authentication">Authentication</h1>
+<Spacer height={1} />
+KV Pear uses API key authentication to verify requests. You can create your API keys in the [dashboard](/api-keys) section. API keys are action-scoped, and can be given read, write and delete permissions. For example, you may want to create a key that can only read values, or a key that can only write values. You can also create a key that can create and list buckets, but not delete it. This allows you to create keys with the minimum permissions required for your application.
+To authenticate a request, pass your API key in the `x-api-key` header.
+**All requests must include an API key.**
+<Highlight className="bash block">
+  &gt; curl -X GET -H "x-api-key: myApiKey" https://kvpear.dev/v1/buckets
+</Highlight>
+<Spacer height={4} />
+<hr />
 
 <h1 id="buckets">Buckets</h1>
 <Spacer height={2} />
