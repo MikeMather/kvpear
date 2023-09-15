@@ -33,7 +33,7 @@ export default function NewApiKeyForm({ onComplete }: { onComplete: () => void }
   if (createdKey) {
     return (
       <div>
-        <p style={{ marginBottom: '5px' }}>Your new API Key:</p>
+        <p style={{ marginBottom: '10px' }}>Your new API Key:</p>
         <SecretField secret={createdKey} />
       </div>
     )
@@ -43,7 +43,7 @@ export default function NewApiKeyForm({ onComplete }: { onComplete: () => void }
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={ccn('form-group', { 'has-error': !!errors?.name })}>
         <label className="form-label" htmlFor="key">Name</label>
-        <input className="form-input" type="text" { ...register('name') } />
+        <input className="form-input" type="text" autoFocus { ...register('name') } />
         {errors?.name && <p className="form-input-hint">{errors.name.message}</p>}
       </div>
       <div className={ccn('form-group', { 'has-error': !!errors?.permissions })} style={{ marginTop: '20px' }}>

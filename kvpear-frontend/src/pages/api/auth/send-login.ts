@@ -3,6 +3,7 @@ import User, { UserDocument } from "@/database/models/user";
 import { NextApiRequest, NextApiResponse } from "next"
 import { generateToken } from "@/auth/session";
 import { EmailTemplate, sendEmailMessage } from "@/utils/email";
+import { storeKv } from "@/utils/kvStorage";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
@@ -34,6 +35,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           email: email,
         });
         await newUser.save();
+        try {
+          const urlSafeEmail = email.replace(/@/g, '_at_').replace(/\./g, '_dot_');
+          await storeKv('users', urlSafeEmail, JSON.stringify(newUser));
+        } catch (err) {
+          console.log(err);
+        }
         // create a new token
         const sealToken = await generateToken({ userId: newUser._id });
         const sendResult = await sendEmailMessage({

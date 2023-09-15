@@ -39,6 +39,7 @@ export default function NewBucketForm({ onComplete }: { onComplete: (res: any) =
           type="text" 
           name="name"
           value={bucketName}
+          autoFocus
           onChange={e => setBucketName(e.target.value)} 
         />
         {!!validationError && <span className="form-input-hint">{validationError}</span>}

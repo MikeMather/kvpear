@@ -65,7 +65,7 @@ export default function LoginSignupForm({ title, subtitle, children }: PropsWith
         <form onSubmit={handleSubmit(onSubmit)} className={styles.login_form}>
           <div className="form-group">
             <label className="form-label label-lg" htmlFor="email">Email</label>
-            <input className="form-input input-lg" type="email" {...register('email', { required: true })} />
+            <input className="form-input input-lg" type="email" autoFocus {...register('email', { required: true })} />
           </div>
           <button type="submit" className={`btn btn-primary ${isLoading && 'loading'}`}>Send Magic Link 🪄</button>
         </form>

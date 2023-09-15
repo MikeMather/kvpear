@@ -104,6 +104,7 @@ export default function EditOrCreateKeyModal({ editingKey=defaultKey, onClose, b
       <div className="form-group">
         <label className="form-label label-lg" htmlFor="key">Key</label>
         <input 
+          autoFocus={!editingKey._id}
           className={ccn("form-input input-lg", { 'is-error': !!errors.key })} 
           type="text" 
           {...register('key')}
