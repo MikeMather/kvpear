@@ -5,8 +5,9 @@ import Footer from "@/components/landing/Footer/Footer";
 import { ccn } from "@/styles/styleUtils";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
-export default function Layout({ children, padded=true }: PropsWithChildren<{ padded?: boolean }>) {
+export default function Layout({ children, padded = true }: PropsWithChildren<{ padded?: boolean }>) {
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const router = useRouter();
@@ -17,6 +18,19 @@ export default function Layout({ children, padded=true }: PropsWithChildren<{ pa
 
   return (
     <div className={styles.main_layout}>
+      <Head>
+        {process.env.NODE_ENV === 'production' && (
+          <script>
+            {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-HM2342D7T4');
+          `}
+          </script>
+        )}
+      </Head>
       <TopBar onMenuOpen={() => setSidebarOpen(true)} />
       <div className={ccn(styles.mobile_nav, { [`${styles.open}`]: sidebarOpen })}>
         <button className="btn btn-link btn-lg">

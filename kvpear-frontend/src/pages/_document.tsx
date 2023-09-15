@@ -7,17 +7,6 @@ export default function Document() {
         <link href="https://unpkg.com/nord-highlightjs@0.1.0/dist/nord.css" rel="stylesheet" type="text/css" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-HM2342D7T4">
         </script>
-        {process.env.NODE_ENV === 'production' && (
-        <script>
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-HM2342D7T4');
-          `}
-        </script>
-        )}
       </Head>
       <body>
         <Main />
