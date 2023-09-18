@@ -43,9 +43,9 @@ export default function Layout({ children, padded = true }: PropsWithChildren<{ 
           <li className="nav-item">
             <Link href="/docs">Documentation</Link>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link href="/">Guides</Link>
-          </li>
+          </li> */}
           <li className="nav-item">
             <Link href="/auth/login">Login</Link>
           </li>
