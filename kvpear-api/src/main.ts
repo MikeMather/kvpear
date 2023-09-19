@@ -11,8 +11,8 @@ const corsOptions = {
 }
 
 async function bootstrap() {
-  // 4kb
-  const bodyLimit = 4 * 1024;
+  // 32kb
+  const bodyLimit = 32 * 1024;
   const adapter = new FastifyAdapter({ logger: true, bodyLimit });
   adapter.enableCors(corsOptions);
   const app = await NestFactory.create<NestFastifyApplication>(
