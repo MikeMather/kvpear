@@ -7,6 +7,10 @@ module.exports = {
     '/api-keys',
     '/app',
     '/buckets',
-    '/usage'
+    '/usage',
+    '/layout',
+    '/docs/docs',
+    '/guides',
+    '/docs/guides/form-submissions'
   ]
 }
