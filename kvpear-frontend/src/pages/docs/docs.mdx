@@ -59,7 +59,7 @@ If the key exists, the value will be updated. If the key does not exist, it will
 The key value must be unique within the bucket and can only contain letters, numbers, dashes and underscores. The key value is case sensitive. The data type of the value will be parsed and stored accordingly. For example if the value sent is "100", it will be stored and returned as an integer.
 Return value is the key value string.
 <Highlight className="bash block">
-  &gt; curl -X POST -d "myvalue" https://kvpear.dev/v1/buckets/myBucket/mykey
+  &gt; curl -X POST -d "myvalue" https://kvpear.dev/v1/kvs/myBucket/mykey
   "myvalue"
 </Highlight>
 <Spacer height={4} />
@@ -69,9 +69,9 @@ Return value is the key value string.
 <EndpointLabel method="POST" path="/v1/kvs/:bucketName/:keyName" />
 Number values can be incremented/decremented using the same endpoint as the create/update endpoint. To do this, pass in the value with a plus or minus sign before the amount you want to increment by. For example passing '+100' will increment the value by 100, or '-5' will decrement by 5.
 <Highlight className="bash block">
-  &gt; curl -X POST -d "100" https://kvpear.dev/v1/buckets/myWebsite/hits
+  &gt; curl -X POST -d "100" https://kvpear.dev/v1/kvs/myWebsite/hits
   100
-  &gt; curl -X POST -d "+1" https://kvpear.dev/v1/buckets/myWebsite/hits
+  &gt; curl -X POST -d "+1" https://kvpear.dev/v1/kvs/myWebsite/hits
   101
 </Highlight>
 <Spacer height={4} />
@@ -82,7 +82,7 @@ Number values can be incremented/decremented using the same endpoint as the crea
 <EndpointLabel method="GET" path="/v1/kvs/:bucketName/:keyName" />
 You can retrieve a key value using the `GET` method on the `/kvs/:bucketName/:keyName` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X GET https://kvpear.dev/v1/buckets/myWebsite/hits
+  &gt; curl -X GET https://kvpear.dev/v1/kvs/myWebsite/hits
   101
 </Highlight>
 <Spacer height={4} />
@@ -93,7 +93,7 @@ You can retrieve a key value using the `GET` method on the `/kvs/:bucketName/:ke
 <EndpointLabel method="GET" path="/v1/kvs/:bucketName" />
 You can list all of your key values using the `GET` method on the `/kvs/:bucketName` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X GET https://kvpear.dev/v1/buckets/myBucket
+  &gt; curl -X GET https://kvpear.dev/v1/kvs/myBucket
   [&#123; "name": "mykey", "value": "myvalue", "created": "2023-01-01T00:00:00Z" &#125;]
 </Highlight>
 <Spacer height={1} />
@@ -110,6 +110,6 @@ This can provide a powerful interface for other data-storage patterns such as us
 <EndpointLabel method="GET" path="/v1/kvs/:bucketName/:keyName" />
 You can delete a key-value pair using the `DELETE` method on the `/v1/kvs/:bucketName/:keyName` endpoint.
 <Highlight className="bash block">
-  &gt; curl -X DELETE https://kvpear.dev/v1/buckets/myBucket/myKey
+  &gt; curl -X DELETE https://kvpear.dev/v1/kvs/myBucket/myKey
 </Highlight>
 <Spacer height={4} />
